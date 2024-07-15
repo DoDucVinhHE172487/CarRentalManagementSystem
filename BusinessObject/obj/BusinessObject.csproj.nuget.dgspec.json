@@ -1,32 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Study\\PRN212\\CarRentalManagementSystem\\CarRentalManagementSystem\\CarRentalManagementSystem.csproj": {}
+    "D:\\Study\\PRN212\\CarRentalManagementSystem\\BusinessObject\\BusinessObject.csproj": {}
   },
   "projects": {
-    "D:\\Study\\PRN212\\CarRentalManagementSystem\\CarRentalManagementSystem\\CarRentalManagementSystem.csproj": {
+    "D:\\Study\\PRN212\\CarRentalManagementSystem\\BusinessObject\\BusinessObject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Study\\PRN212\\CarRentalManagementSystem\\CarRentalManagementSystem\\CarRentalManagementSystem.csproj",
-        "projectName": "CarRentalManagementSystem",
-        "projectPath": "D:\\Study\\PRN212\\CarRentalManagementSystem\\CarRentalManagementSystem\\CarRentalManagementSystem.csproj",
+        "projectUniqueName": "D:\\Study\\PRN212\\CarRentalManagementSystem\\BusinessObject\\BusinessObject.csproj",
+        "projectName": "BusinessObject",
+        "projectPath": "D:\\Study\\PRN212\\CarRentalManagementSystem\\BusinessObject\\BusinessObject.csproj",
         "packagesPath": "C:\\Users\\Vinh\\.nuget\\packages\\",
-        "outputPath": "D:\\Study\\PRN212\\CarRentalManagementSystem\\CarRentalManagementSystem\\obj\\",
+        "outputPath": "D:\\Study\\PRN212\\CarRentalManagementSystem\\BusinessObject\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Vinh\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net8.0-windows"
+          "net8.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net8.0-windows7.0": {
-            "targetAlias": "net8.0-windows",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {}
           }
         },
@@ -42,8 +42,8 @@
         }
       },
       "frameworks": {
-        "net8.0-windows7.0": {
-          "targetAlias": "net8.0-windows",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "dependencies": {
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
@@ -80,9 +80,6 @@
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
-            },
-            "Microsoft.WindowsDesktop.App.WPF": {
-              "privateAssets": "none"
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
