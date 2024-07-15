@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Study\\PRN212\\CarRentalManagementSystem\\BusinessObject\\BusinessObject.csproj": {}
+    "D:\\File C#\\CarRentalManagementSystem\\BusinessObject\\BusinessObject.csproj": {}
   },
   "projects": {
-    "D:\\Study\\PRN212\\CarRentalManagementSystem\\BusinessObject\\BusinessObject.csproj": {
+    "D:\\File C#\\CarRentalManagementSystem\\BusinessObject\\BusinessObject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Study\\PRN212\\CarRentalManagementSystem\\BusinessObject\\BusinessObject.csproj",
+        "projectUniqueName": "D:\\File C#\\CarRentalManagementSystem\\BusinessObject\\BusinessObject.csproj",
         "projectName": "BusinessObject",
-        "projectPath": "D:\\Study\\PRN212\\CarRentalManagementSystem\\BusinessObject\\BusinessObject.csproj",
-        "packagesPath": "C:\\Users\\Vinh\\.nuget\\packages\\",
-        "outputPath": "D:\\Study\\PRN212\\CarRentalManagementSystem\\BusinessObject\\obj\\",
+        "projectPath": "D:\\File C#\\CarRentalManagementSystem\\BusinessObject\\BusinessObject.csproj",
+        "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
+        "outputPath": "D:\\File C#\\CarRentalManagementSystem\\BusinessObject\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Vinh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

@@ -4542,19 +4542,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Vinh\\.nuget\\packages\\": {}
+    "C:\\Users\\nguye\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Study\\PRN212\\CarRentalManagementSystem\\CarRentalManagementSystem\\CarRentalManagementSystem.csproj",
+      "projectUniqueName": "D:\\File C#\\CarRentalManagementSystem\\CarRentalManagementSystem\\CarRentalManagementSystem.csproj",
       "projectName": "CarRentalManagementSystem",
-      "projectPath": "D:\\Study\\PRN212\\CarRentalManagementSystem\\CarRentalManagementSystem\\CarRentalManagementSystem.csproj",
-      "packagesPath": "C:\\Users\\Vinh\\.nuget\\packages\\",
-      "outputPath": "D:\\Study\\PRN212\\CarRentalManagementSystem\\CarRentalManagementSystem\\obj\\",
+      "projectPath": "D:\\File C#\\CarRentalManagementSystem\\CarRentalManagementSystem\\CarRentalManagementSystem.csproj",
+      "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
+      "outputPath": "D:\\File C#\\CarRentalManagementSystem\\CarRentalManagementSystem\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Vinh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

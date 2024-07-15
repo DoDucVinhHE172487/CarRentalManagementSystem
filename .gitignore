@@ -1,0 +1,6 @@
+# Ignore the .vs directory
+.vs/
+
+# Ignore the bin directories
+CarRentalManagementSystem/bin/
+BusinessObject/bin/
