@@ -4,3 +4,12 @@
 # Ignore the bin directories
 CarRentalManagementSystem/bin/
 BusinessObject/bin/
+DataAccessLayer/bin/
+Repository/bin/
+
+
+# Ignore the obj directories
+CarRentalManagementSystem/obj/
+BusinessObject/obj/
+DataAccessLayer/obj/
+Repository/obj/
