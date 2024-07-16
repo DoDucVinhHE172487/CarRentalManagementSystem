@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="CarRentalManagementSystem.SideBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CarRentalManagementSystem"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="Orange">
+        <StackPanel Orientation="Vertical">
+            <Button Content="Quản lý xe" Margin="5" Click="Button_Click" />
+            <Button Content="Quản lý khách hàng" Margin="5" />
+            <Button Content="Quản lý đơn đặt xe" Margin="5" Click="Button_Click_1" />
+            <Button Content="Quản lý lịch trình" Margin="5" />
+            <Button Content="Báo cáo và thống kê" Margin="5" />
+        </StackPanel>
+    </Grid>
+</UserControl>

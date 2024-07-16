@@ -23,7 +23,7 @@ public partial class Car
 
     public int NumberOfSeats { get; set; }
 
-    public int? CarStatusId { get; set; }
+    public int CarStatusId { get; set; }
 
     public string Fuel { get; set; } = null!;
 
