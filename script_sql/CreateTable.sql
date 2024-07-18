@@ -68,6 +68,7 @@ CREATE TABLE CarRental (
     createdBy NVARCHAR(255),
     updatedBy NVARCHAR(255),
     isDeleted BIT,
+	Total Decimal,
     FOREIGN KEY (CustomerId) REFERENCES Customer(CustomerId),
     FOREIGN KEY (LicensePlates) REFERENCES Car(LicensePlates)
 );
