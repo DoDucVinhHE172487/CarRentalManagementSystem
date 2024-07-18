@@ -16,15 +16,21 @@ CREATE TABLE Staff (
     isDeleted BIT,
 );
 GO
-
+-- Bảng RankLevelCustomer
+CREATE TABLE RankLevelCustomer (
+    RankLevel INT PRIMARY KEY IDENTITY(1,1),
+	RankLevelName NVARCHAR(50),
+);
+GO
 -- Bảng Customer
 CREATE TABLE Customer (
     CustomerId INT PRIMARY KEY IDENTITY(1,1),
     CustomerName NVARCHAR(255) NOT NULL,
     PhoneNumber VARCHAR(15) NOT NULL,
     Address NVARCHAR(255) NOT NULL,
-    createdBy NVARCHAR(255),
-    updatedBy NVARCHAR(255),
+	Point INT,
+	RankLevel INT,
+	FOREIGN KEY (RankLevel) REFERENCES RankLevelCustomer(RankLevel),
     isDeleted BIT
 );
 GO
@@ -49,8 +55,6 @@ CREATE TABLE Car (
     CarStatusId INT,
     Fuel NVARCHAR(50) NOT NULL,
     RentalPrice DECIMAL(10, 2) NOT NULL,
-    createdBy NVARCHAR(255),
-    updatedBy NVARCHAR(255),
     isDeleted BIT,
     FOREIGN KEY (CarStatusId) REFERENCES CarStatus(CarStatusId)
 );
@@ -63,10 +67,10 @@ CREATE TABLE CarRental (
     LicensePlates NVARCHAR(50),
     StartDate DATETIME2 NOT NULL,
     EndDate DATETIME2 NOT NULL,
-    createdBy NVARCHAR(255),
-    updatedBy NVARCHAR(255),
-    isDeleted BIT,
+    StaffId INT,
 	Total Decimal,
+    isDeleted BIT,
+	FOREIGN KEY (StaffId) REFERENCES Staff(StaffId),
     FOREIGN KEY (CustomerId) REFERENCES Customer(CustomerId),
     FOREIGN KEY (LicensePlates) REFERENCES Car(LicensePlates)
 );
@@ -81,7 +85,6 @@ CREATE TABLE HistoryCarRental (
     ActualReturnTime DATETIME2,
     TotalPrice DECIMAL(10, 2) NOT NULL,
     createdBy NVARCHAR(255),
-    updatedBy NVARCHAR(255),
     FOREIGN KEY (RentalId) REFERENCES CarRental(RentalId)
 );
 GO
