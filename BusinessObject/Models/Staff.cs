@@ -21,7 +21,5 @@ public partial class Staff
 
     public bool? IsDeleted { get; set; }
 
-    public string? CreatedBy { get; set; }
-
-    public string? UpdatedBy { get; set; }
+    public virtual ICollection<CarRental> CarRentals { get; set; } = new List<CarRental>();
 }

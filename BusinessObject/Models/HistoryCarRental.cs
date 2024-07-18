@@ -19,7 +19,5 @@ public partial class HistoryCarRental
 
     public string? CreatedBy { get; set; }
 
-    public string? UpdatedBy { get; set; }
-
     public virtual CarRental? Rental { get; set; }
 }

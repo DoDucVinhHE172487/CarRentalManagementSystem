@@ -27,14 +27,9 @@ public partial class Car
 
     public decimal RentalPrice { get; set; }
 
-    public string? CreatedBy { get; set; }
-
-    public string? UpdatedBy { get; set; }
-
     public bool? IsDeleted { get; set; }
 
     public virtual ICollection<CarRental> CarRentals { get; set; } = new List<CarRental>();
 
     public virtual CarStatus? CarStatus { get; set; }
-
 }

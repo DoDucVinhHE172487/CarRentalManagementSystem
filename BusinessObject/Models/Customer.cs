@@ -13,11 +13,13 @@ public partial class Customer
 
     public string Address { get; set; } = null!;
 
-    public string? CreatedBy { get; set; }
+    public int? Point { get; set; }
 
-    public string? UpdatedBy { get; set; }
+    public int? RankLevel { get; set; }
 
     public bool? IsDeleted { get; set; }
 
     public virtual ICollection<CarRental> CarRentals { get; set; } = new List<CarRental>();
+
+    public virtual RankLevelCustomer? RankLevelNavigation { get; set; }
 }

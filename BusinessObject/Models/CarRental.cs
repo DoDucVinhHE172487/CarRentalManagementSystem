@@ -15,9 +15,9 @@ public partial class CarRental
 
     public DateTime EndDate { get; set; }
 
-    public string? CreatedBy { get; set; }
+    public int? StaffId { get; set; }
 
-    public string? UpdatedBy { get; set; }
+    public decimal? Total { get; set; }
 
     public bool? IsDeleted { get; set; }
 
@@ -26,4 +26,6 @@ public partial class CarRental
     public virtual ICollection<HistoryCarRental> HistoryCarRentals { get; set; } = new List<HistoryCarRental>();
 
     public virtual Car? LicensePlatesNavigation { get; set; }
+
+    public virtual Staff? Staff { get; set; }
 }
