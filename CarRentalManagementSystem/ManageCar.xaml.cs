@@ -1,4 +1,4 @@
-﻿using BusinessObject.Models;
+﻿using BusinessObjects.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -27,69 +27,122 @@ namespace CarRentalManagementSystem
             InitializeComponent();
             con = new CarRentalManagementSystemContext();
             loadCar();
+            loadCarStatus();
         }
         public void loadCar()
         {
-            lvCar.ItemsSource = con.Cars.Include(x => x.CarStatus).ToList();
+            lvCar.ItemsSource = con.Cars.Include(x => x.CarStatus).Where(x => x.IsDeleted == false).ToList();
         }
-        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        public void loadCarStatus()
         {
-            if (sender is FrameworkElement element && element.DataContext is Car car)
+            cbStatus.ItemsSource = con.CarStatuses.ToList();
+            cbStatus.SelectedIndex = 0;
+        }
+        private void Clear()
+        {
+            txtLicensePlates.Text = "";
+            txtName.Text = "";
+            txtColor.Text = "";
+            txtType.Text = "";
+            txtFuel.Text = "";
+            txtPrice.Text = "";
+            txtRentalPrice.Text = "";
+            cbStatus.SelectedItem = null;
+            dpDate.SelectedDate = null;
+            txtBrand.Text = "";
+            txtNumberOfSeat.Text = "";
+        }
+        private void lvCar_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Car car = (sender as ListView).SelectedItem as Car;
+            if (car != null)
             {
-                txtCarId.Text = car.CarId.ToString();
-                txtCarName.Text = car.CarName;
-                txtType.Text = car.Type;
-                cbStatus.ItemsSource = con.CarStatuses.ToList();
-                cbStatus.SelectedIndex = car.CarStatusId - 1;
-                txtColor.Text = car.Color;
-                txtFuel.Text = car.Fuel;
-                txtBrand.Text = car.Brand;
-                dpDateCar.SelectedDate = car.DateCar;
+                txtLicensePlates.Text = car.LicensePlates.ToString();
+                txtName.Text = car.CarName.ToString();
+                txtColor.Text = car.Color.ToString();
+                txtType.Text = car.Type.ToString();
+                txtFuel.Text = car.Fuel.ToString();
                 txtPrice.Text = car.Price.ToString();
-                txtNumberOfSeats.Text = car.NumberOfSeats.ToString();
                 txtRentalPrice.Text = car.RentalPrice.ToString();
-                popupEdit.IsOpen = true;
+                cbStatus.SelectedItem = car.CarStatus;
+                dpDate.SelectedDate = DateTime.Parse(car.DateCar.ToString());
+                txtBrand.Text = car.Brand.ToString();
+                txtNumberOfSeat.Text = car.NumberOfSeats.ToString();
             }
-            else
-            {
-                MessageBox.Show("Can't not find car neeed to edit!!!", "Alert", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                Car car = (Car)con.Cars.Include(x => x.CarStatus).FirstOrDefault(c => c.CarId == Convert.ToInt32(txtCarId.Text));
-                car.CarId = Convert.ToInt32(txtCarId.Text);
-                car.CarStatusId = (cbStatus.SelectedItem as CarStatus).CarStatusId;
-                car.Color = txtColor.Text;
-                car.Fuel = txtFuel.Text;
-                car.Brand = txtBrand.Text;
-                car.DateCar = dpDateCar.SelectedDate;
-                car.Price = Decimal.TryParse(txtPrice.Text, out decimal price) ? price : 0; // Parse Price
-                car.NumberOfSeats = int.TryParse(txtNumberOfSeats.Text, out int numberOfSeats) ? numberOfSeats : 0; // Parse NumberOfSeats
-                car.RentalPrice = Decimal.TryParse(txtRentalPrice.Text, out decimal rentalPrice) ? rentalPrice : 0; // Parse RentalPrice
-                car.CarName = txtCarName.Text;
-                car.Type = txtType.Text;
-                con.Cars.Update(car);
-                con.SaveChanges();
-                popupEdit.IsOpen = false;
-                MessageBox.Show("Update successfully!!!", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-                loadCar();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Update unsuccessfully!!!", "Alert", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            popupEdit.IsOpen = false;
+
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            popupCreate.IsOpen = true;
+            try
+            {
+                Car car = new Car();
+                car.CarName = txtName.Text;
+                car.Type = txtType.Text;
+                car.Brand = txtBrand.Text;
+                car.Color = txtColor.Text;
+                car.Price = decimal.Parse(txtPrice.Text);
+                car.RentalPrice = decimal.Parse(txtRentalPrice.Text);
+                car.CarStatusId = (cbStatus.SelectedItem as CarStatus).CarStatusId;
+                car.DateCar = DateOnly.Parse(dpDate.Text);
+                car.NumberOfSeats = Int32.Parse(txtNumberOfSeat.Text);
+                car.Fuel = txtFuel.Text;
+                car.IsDeleted = false;
+                con.Cars.Add(car);
+                con.SaveChanges();
+                loadCar();
+                Clear();
+                MessageBox.Show("Create Successfully", "Alert", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Alert", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Car car = con.Cars.FirstOrDefault(x =>  x.LicensePlates.Equals(txtLicensePlates.ToString()));
+                car.CarName = txtName.Text;
+                car.Type = txtType.Text;
+                car.Brand = txtBrand.Text;
+                car.Color = txtColor.Text;
+                car.Price = decimal.Parse(txtPrice.Text);
+                car.RentalPrice = decimal.Parse(txtRentalPrice.Text);
+                car.CarStatusId = (cbStatus.SelectedItem as CarStatus).CarStatusId;
+                car.DateCar = DateOnly.Parse(dpDate.Text);
+                car.NumberOfSeats = Int32.Parse(txtNumberOfSeat.Text);
+                car.Fuel = txtFuel.Text;
+                car.IsDeleted = false;
+                con.Cars.Update(car);
+                con.SaveChanges();
+                loadCar();
+                Clear();
+                MessageBox.Show("Update Successfully", "Alert", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Alert", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            Car car = con.Cars.FirstOrDefault(x => x.LicensePlates.Equals(txtLicensePlates.ToString()));
+            car.IsDeleted = true;
+            con.Cars.Update(car);
+            con.SaveChanges();
+            loadCar();
+            Clear();
+            MessageBox.Show("Delete Successfully", "Alert", MessageBoxButton.OK, MessageBoxImage.Error);
+
+        }
+
+        private void btnClear_Click(object sender, RoutedEventArgs e)
+        {
+            Clear();
         }
     }
 }

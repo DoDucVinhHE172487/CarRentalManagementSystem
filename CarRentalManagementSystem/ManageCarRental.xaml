@@ -5,8 +5,79 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CarRentalManagementSystem"
         mc:Ignorable="d"
-        Title="ManageCarRental" Height="450" Width="800">
+        Title="ManageCarRental" Height="450" Width="800" ResizeMode="NoResize">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <local:SideBar Grid.Column="0"/>
+        <Grid Grid.Column="1">
+            <TabControl Margin="0,26,0,0">
+                <TabItem Header="Create a car rental">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Label Content="Start Time" HorizontalAlignment="Left" Margin="3,1,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.869,-0.074" Height="28" Width="74"/>
+                            <Label Content="End Time" HorizontalAlignment="Left" Margin="5,39,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.869,-0.074"/>
+                            <Label Content="Customer Name" HorizontalAlignment="Left" Margin="10,107,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.869,-0.074"/>
+                            <Label Content="Phone Number" HorizontalAlignment="Left" Margin="12,147,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.869,-0.074"/>
+                            <Label Content="Address" HorizontalAlignment="Left" Margin="12,190,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.869,-0.074"/>
+                            <TextBox x:Name="txtPhoneNumber" HorizontalAlignment="Left" Margin="121,149,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="166" Height="26"/>
+                            <DatePicker x:Name="dpStartTime" HorizontalAlignment="Left" Margin="167,1,0,0" VerticalAlignment="Top" Width="136" Height="28"/>
+                            <DatePicker x:Name="dpEndTime" HorizontalAlignment="Left" Margin="167,39,0,0" VerticalAlignment="Top" Width="136" Height="28"/>
+                            <TextBlock HorizontalAlignment="Left" Margin="12,74,0,0" TextWrapping="Wrap" Text="Infomation Customer" VerticalAlignment="Top" Width="172" Height="32" FontWeight="Bold" Foreground="Red" FontSize="16"/>
+                            <TextBox x:Name="txtAddress" HorizontalAlignment="Left" Margin="121,187,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="166" Height="26"/>
+                            <ComboBox x:Name="cbCustomerName" DisplayMemberPath="CustomerName" HorizontalAlignment="Left" Margin="121,109,0,0" VerticalAlignment="Top" Width="166" Height="26" SelectionChanged="cbCustomerName_SelectionChanged"/>
+                            <Label Content=" Licen Plates" HorizontalAlignment="Left" Margin="322,19,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.869,-0.074" Width="101"/>
+                            <ComboBox x:Name="cbLicenPlates" DisplayMemberPath="LicensePlates" HorizontalAlignment="Left" Margin="423,22,0,0" VerticalAlignment="Top" Width="166" Height="26" SelectionChanged="cbLicenPlates_SelectionChanged"/>
+                            <Label Content="Name Car" HorizontalAlignment="Left" Margin="322,57,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.869,-0.074" Width="101"/>
+                            <Label Content="Number Of Seats" HorizontalAlignment="Left" Margin="322,93,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.869,-0.074" Width="101"/>
+                            <TextBox x:Name="txtNameCar" HorizontalAlignment="Left" Margin="423,58,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="166" Height="26"/>
+                            <TextBox x:Name="txtNumberOfSeats" HorizontalAlignment="Left" Margin="423,96,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="166" Height="26"/>
+                            <TextBox x:Name="txtBrand" HorizontalAlignment="Left" Margin="423,134,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="166" Height="26"/>
+                            <TextBox x:Name="txtColor" HorizontalAlignment="Left" Margin="423,172,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="166" Height="26"/>
+                            <TextBox x:Name="txtPrice" HorizontalAlignment="Left" Margin="423,214,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="166" Height="26"/>
+                            <TextBox x:Name="txtRentalPrice" HorizontalAlignment="Left" Margin="423,252,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="166" Height="26"/>
+                            <ComboBox x:Name="cbStartTimeHour" HorizontalAlignment="Left" Margin="76,3,0,0" VerticalAlignment="Top" Width="40"/>
+                            <ComboBox x:Name="cbStartTimeMinute" HorizontalAlignment="Left" Margin="122,3,0,0" VerticalAlignment="Top" Width="40"/>
+                            <ComboBox x:Name="cbEndTimeHour" HorizontalAlignment="Left" Margin="76,41,0,0" VerticalAlignment="Top" Width="40"/>
+                            <ComboBox x:Name="cbEndTimeMinute" HorizontalAlignment="Left" Margin="122,41,0,0" VerticalAlignment="Top" Width="40"/>
+                            <Calendar HorizontalAlignment="Left" Margin="162,3,0,0" VerticalAlignment="Top"/>
+                        </Grid>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,10,10">
+                            <Button Content="Create" Margin="5,0" Height="31" Width="80"/>
+                            <Button x:Name="btnCancel" Content="Cancel" Margin="5,0" Height="31" Width="80" Click="btnCancel_Click"/>
+                        </StackPanel>
+                        <TextBlock HorizontalAlignment="Left" Margin="322,-3,0,0" TextWrapping="Wrap" Text="Infomation Car" VerticalAlignment="Top" Width="172" Height="32" FontWeight="Bold" Foreground="Red" FontSize="16" RenderTransformOrigin="0.53,0.277"/>
+                        <Label Content=" Brand" HorizontalAlignment="Left" Margin="322,129,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.869,-0.074" Width="101"/>
+                        <Label Content="Color" HorizontalAlignment="Left" Margin="322,171,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.869,-0.074" Width="101"/>
+                        <Label Content="Price" HorizontalAlignment="Left" Margin="322,215,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.869,-0.074" Width="101"/>
+                        <TextBox x:Name="txtTotalPrice" HorizontalAlignment="Left" Margin="55,254,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="166" Height="26"/>
+                        <Label Content="Rental Price" HorizontalAlignment="Left" Margin="322,254,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.869,-0.074" Width="101"/>
+                        <Button x:Name="btnTotal" Content="Total" HorizontalAlignment="Left" Margin="226,254,0,0" VerticalAlignment="Top" Height="26" Width="45" Click="btnTotal_Click"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="List car rentals">
+                    <ListView x:Name="lvCarRental">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Width="50" Header="RentalId" DisplayMemberBinding="{Binding Path=RentalId}" />
+                                <GridViewColumn Width="100" Header="Customer Name" DisplayMemberBinding="{Binding Path=Customer.CustomerName}" />
+                                <GridViewColumn Width="100" Header="Car Name" DisplayMemberBinding="{Binding Path=LicensePlatesNavigation.CarName}" />
+                                <GridViewColumn Width="100" Header="Start Date" DisplayMemberBinding="{Binding Path=StartDate}" />
+                                <GridViewColumn Width="100" Header="End Date" DisplayMemberBinding="{Binding Path=EndDate}" />
+                                <GridViewColumn Width="100" Header="Car Price" DisplayMemberBinding="{Binding Path=CarPrice}" />
+                                <GridViewColumn Width="100" Header="Rental Price" DisplayMemberBinding="{Binding Path=RentalPrice}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </TabItem>
+            </TabControl>
+        </Grid>
+        <TextBlock HorizontalAlignment="Left" Margin="10,280,0,0" TextWrapping="Wrap" Text="Total Price" VerticalAlignment="Top" Width="172" Height="32" FontWeight="Bold" Foreground="Red" FontSize="16" Grid.Column="1"/>
     </Grid>
 </Window>

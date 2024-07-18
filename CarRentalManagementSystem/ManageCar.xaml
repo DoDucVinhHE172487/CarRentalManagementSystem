@@ -11,148 +11,78 @@
             <ColumnDefinition Width="150"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-
-        <!-- Include SidebarControl vào cột đầu tiên -->
         <local:SideBar Grid.Column="0"/>
-        <!-- Nội dung chính của trang -->
-
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.1*"></RowDefinition>
+                <RowDefinition Height="0.15*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="0.4*"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
-                <Button Content="Create" x:Name="btnAdd" HorizontalAlignment="Left" Margin="582,0,0,9" VerticalAlignment="Bottom" Click="btnAdd_Click"/>
             </Grid>
             <Grid Grid.Row="1">
-                <ListView x:Name="lvCar">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Width="65" Header="Id" DisplayMemberBinding="{Binding Path=CarId}" />
-                            <GridViewColumn Width="100" Header="Name" DisplayMemberBinding="{Binding Path=CarName}" />
-                            <GridViewColumn Width="100" Header="Type" DisplayMemberBinding="{Binding Path=Type}" />
-                            <GridViewColumn Width="80" Header="Color" DisplayMemberBinding="{Binding Path=Color}" />
-                            <GridViewColumn Width="100" Header="Fuel" DisplayMemberBinding="{Binding Path=Fuel}" />
-                            <GridViewColumn Width="100" Header="Status" DisplayMemberBinding="{Binding Path=CarStatus.CarStatusName}" />
-                            <GridViewColumn Width="50" Header="Action">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Content="Edit" Click="btnEdit_Click"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.1*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <ListView x:Name="lvCar" SelectionChanged="lvCar_SelectionChanged">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Width="90" Header="License Plates" DisplayMemberBinding="{Binding Path=LicensePlates}" />
+                                <GridViewColumn Width="90" Header="Name" DisplayMemberBinding="{Binding Path=CarName}" />
+                                <GridViewColumn Width="90" Header="Type" DisplayMemberBinding="{Binding Path=Type}" />
+                                <GridViewColumn Width="60" Header="Color" DisplayMemberBinding="{Binding Path=Color}" />
+                                <GridViewColumn Width="90" Header="Fuel" DisplayMemberBinding="{Binding Path=Fuel}" />
+                                <GridViewColumn Width="90" Header="Rental Price" DisplayMemberBinding="{Binding Path=RentalPrice}" />
+                                <GridViewColumn Width="90" Header="Status" DisplayMemberBinding="{Binding Path=CarStatus.CarStatusName}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Button Content="Create" x:Name="btnAdd" HorizontalAlignment="Center" Margin="0,47,0,0" VerticalAlignment="Top" Click="btnAdd_Click" Width="47"/>
+                    <Button Content="Update" x:Name="btnUpdate" HorizontalAlignment="Center" Margin="0,95,0,0" VerticalAlignment="Top" Click="btnUpdate_Click" Width="47"/>
+                    <Button Content="Delete" x:Name="btnDelete" HorizontalAlignment="Center" Margin="0,140,0,0" VerticalAlignment="Top" Click="btnDelete_Click" Height="20" Width="47"/>
+                    <Button Content="Clear" x:Name="btnClear" HorizontalAlignment="Center" Margin="0,182,0,0" VerticalAlignment="Top" Click="btnClear_Click" Width="47"/>
+
+                </Grid>
+
             </Grid>
-            <!-- Popup để chỉnh sửa -->
-            <Popup x:Name="popupEdit" IsOpen="False" Placement="Center" PlacementTarget="{Binding ElementName=lvCar}">
-                <Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Padding="10">
-                    <StackPanel>
-                        <TextBlock Text="Edit Car" HorizontalAlignment="Center" Margin="0,0,0,10" FontWeight="Bold"/>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Car Id:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtCarId" IsReadOnly="True" Width="100"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Name:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtCarName" Width="200"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Type:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtType" Width="200"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Color:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtColor" Width="100"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Fuel:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtFuel" Width="100"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Status:" Margin="0,0,10,0"/>
-                            <ComboBox x:Name="cbStatus" DisplayMemberPath="CarStatusName"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Date:" Margin="0,0,10,0"/>
-                            <DatePicker x:Name="dpDateCar"></DatePicker>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Brand:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtBrand" Width="150"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Price:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtPrice" Width="150" />
-                        </StackPanel>
-                        <!--<StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Image:" Margin="0,0,10,0"/>
-                            <Image x:Name="image"/>
-                        </StackPanel>-->
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Number of seats:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtNumberOfSeats" Width="150"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Rentalprice:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtRentalPrice" Width="150"/>
-                        </StackPanel>
-                        <Button Content="Save" Width="80" HorizontalAlignment="Center" Click="SaveButton_Click"/>
-                        <Button Content="Cancel" Width="80" HorizontalAlignment="Center" Click="CancelButton_Click"/>
-                    </StackPanel>
-                </Border>
-            </Popup>
-            <!-- Popup để create -->
-            <Popup x:Name="popupCreate" IsOpen="False" Placement="Center">
-                <Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Padding="10">
-                    <StackPanel>
-                        <TextBlock Text="Edit Car" HorizontalAlignment="Center" Margin="0,0,0,10" FontWeight="Bold"/>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Name:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtCarNameCreate" Width="200"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Type:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtTypeCreate" Width="200"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Color:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtColorCreate" Width="100"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Fuel:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtFuelCreate" Width="100"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Status:" Margin="0,0,10,0"/>
-                            <ComboBox x:Name="cbStatusCreate" DisplayMemberPath="CarStatusName"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Date:" Margin="0,0,10,0"/>
-                            <DatePicker x:Name="dpDateCarCreate"></DatePicker>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Brand:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtBrandCreate" Width="150"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Price:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtPriceCreate" Width="150" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Number of seats:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtNumberOfSeatsCreate" Width="150"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Rentalprice:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtRentalPriceCreate" Width="150"/>
-                        </StackPanel>
-                        <Button Content="Save" Width="80" HorizontalAlignment="Center" Click="SaveButton_Click"/>
-                        <Button Content="Cancel" Width="80" HorizontalAlignment="Center" Click="CancelButton_Click"/>
-                    </StackPanel>
-                </Border>
-            </Popup>
+            <Grid Grid.Row="2">
+                <Label Content="License Plates" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1,1,0,0" RenderTransformOrigin="0.555,0.27"/>
+                <Label Content="Name" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="90,1,0,0" RenderTransformOrigin="-0.158,0.347"/>
+                <Label Content="Type" HorizontalAlignment="Left" Margin="207,1,0,0" VerticalAlignment="Top"/>
+                <Label Content="Date" HorizontalAlignment="Left" Margin="378,54,0,0" VerticalAlignment="Top"/>
+                <Label Content="Color" HorizontalAlignment="Left" Margin="455,1,0,0" VerticalAlignment="Top"/>
+                <Label Content="Brand" HorizontalAlignment="Left" Margin="334,1,0,0" VerticalAlignment="Top"/>
+                <Label Content="Price" HorizontalAlignment="Left" Margin="1,54,0,0" VerticalAlignment="Top"/>
+                <Label Content="Number Of Seats" HorizontalAlignment="Left" Margin="523,54,0,0" VerticalAlignment="Top"/>
+                <Label Content="Status" HorizontalAlignment="Left" Margin="235,54,0,0" VerticalAlignment="Top"/>
+                <Label Content="Fuel" HorizontalAlignment="Left" Margin="550,1,0,0" VerticalAlignment="Top" RenderTransformOrigin="-3.267,0.501"/>
+                <Label Content="Rental Price" HorizontalAlignment="Left" Margin="98,54,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.807,0.193"/>
+
+                <TextBox IsReadOnly="True" x:Name="txtLicensePlates" HorizontalAlignment="Left" Margin="9,25,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="81" Height="26" />
+                <TextBox x:Name="txtNumberOfSeat" HorizontalAlignment="Left" Margin="539,78,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="83" Height="26" />
+                <TextBox x:Name="txtRentalPrice" HorizontalAlignment="Left" Margin="113,78,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="111" Height="26" />
+                <TextBox x:Name="txtPrice" HorizontalAlignment="Left" Margin="12,78,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="65" Height="26" />
+                <TextBox x:Name="txtFuel" HorizontalAlignment="Left" Margin="561,25,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="72" Height="26" />
+                <TextBox x:Name="txtColor" HorizontalAlignment="Left" Margin="469,25,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="78" Height="26" />
+                <TextBox x:Name="txtBrand" HorizontalAlignment="Left" Margin="347,25,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="86" Height="26" />
+                <TextBox x:Name="txtType" HorizontalAlignment="Left" Margin="221,25,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="87" Height="26" />
+                <TextBox x:Name="txtName" HorizontalAlignment="Left" Margin="103,25,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="97" Height="26" />
+                <DatePicker x:Name="dpDate" HorizontalAlignment="Left" Margin="394,78,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Width="124">
+                    <DatePicker.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-0.182"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </DatePicker.RenderTransform>
+                </DatePicker>
+                <ComboBox x:Name="cbStatus" DisplayMemberPath="CarStatusName" HorizontalAlignment="Left" Margin="246,78,0,0" VerticalAlignment="Top" Width="127" RenderTransformOrigin="0.375,-0.865" Height="26"/>
+            </Grid>
         </Grid>
     </Grid>
 </Window>

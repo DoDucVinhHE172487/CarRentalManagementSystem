@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using BusinessObjects;
 namespace CarRentalManagementSystem
 {
     /// <summary>
@@ -25,15 +25,15 @@ namespace CarRentalManagementSystem
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void btnManageCar_Click(object sender, RoutedEventArgs e)
         {
             ManageCar manageCar = new ManageCar();
             manageCar.Show();
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void btnManageCarRetal_Click(object sender, RoutedEventArgs e)
         {
-            ManageCarRental manageCarRental = new ManageCarRental();
+           ManageCarRental manageCarRental = new ManageCarRental();
             manageCarRental.Show();
         }
     }

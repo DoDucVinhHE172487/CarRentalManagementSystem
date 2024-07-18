@@ -8,9 +8,9 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="Orange">
         <StackPanel Orientation="Vertical">
-            <Button Content="Quản lý xe" Margin="5" Click="Button_Click" />
+            <Button Content="Quản lý xe" Margin="5" Click="btnManageCar_Click" />
             <Button Content="Quản lý khách hàng" Margin="5" />
-            <Button Content="Quản lý đơn đặt xe" Margin="5" Click="Button_Click_1" />
+            <Button Content="Quản lý đơn đặt xe" Margin="5" Click="btnManageCarRetal_Click" />
             <Button Content="Quản lý lịch trình" Margin="5" />
             <Button Content="Báo cáo và thống kê" Margin="5" />
         </StackPanel>

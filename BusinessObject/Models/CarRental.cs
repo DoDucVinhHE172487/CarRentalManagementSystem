@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BusinessObject.Models;
+namespace BusinessObjects.Models;
 
 public partial class CarRental
 {
@@ -9,9 +9,7 @@ public partial class CarRental
 
     public int? CustomerId { get; set; }
 
-    public int? CarId { get; set; }
-
-    public decimal CarPrice { get; set; }
+    public string? LicensePlates { get; set; }
 
     public DateTime StartDate { get; set; }
 
@@ -23,9 +21,9 @@ public partial class CarRental
 
     public bool? IsDeleted { get; set; }
 
-    public virtual Car? Car { get; set; }
-
     public virtual Customer? Customer { get; set; }
 
     public virtual ICollection<HistoryCarRental> HistoryCarRentals { get; set; } = new List<HistoryCarRental>();
+
+    public virtual Car? LicensePlatesNavigation { get; set; }
 }
