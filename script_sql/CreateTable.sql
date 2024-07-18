@@ -14,8 +14,6 @@ CREATE TABLE Staff (
     PhoneNumber VARCHAR(15) NOT NULL,
     Salary DECIMAL(10, 2),
     isDeleted BIT,
-    createdBy NVARCHAR(255),
-    updatedBy NVARCHAR(255)
 );
 GO
 

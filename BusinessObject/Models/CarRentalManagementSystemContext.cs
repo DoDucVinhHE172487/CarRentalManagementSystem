@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace BusinessObjects.Models;
 
@@ -28,9 +29,13 @@ public partial class CarRentalManagementSystemContext : DbContext
     public virtual DbSet<Staff> Staff { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=localhost;database=CarRentalManagementSystem;Trusted_Connection=SSPI;Encrypt=false;TrustServerCertificate=true");
-
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            var connectionString = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetConnectionString("DB");
+            optionsBuilder.UseSqlServer(connectionString);
+        }
+    }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Car>(entity =>
@@ -63,9 +68,7 @@ public partial class CarRentalManagementSystemContext : DbContext
         modelBuilder.Entity<CarRental>(entity =>
         {
             entity.HasKey(e => e.RentalId).HasName("PK__CarRenta__97005943F8BB6DC7");
-
             entity.ToTable("CarRental");
-
             entity.Property(e => e.CreatedBy)
                 .HasMaxLength(255)
                 .HasColumnName("createdBy");
@@ -87,10 +90,6 @@ public partial class CarRentalManagementSystemContext : DbContext
         modelBuilder.Entity<CarStatus>(entity =>
         {
             entity.HasKey(e => e.CarStatusId).HasName("PK__CarStatu__4A328CC6BA0FE2AC");
-
-            entity.ToTable("CarStatus");
-
-            entity.Property(e => e.CarStatusName).HasMaxLength(50);
         });
 
         modelBuilder.Entity<Customer>(entity =>
