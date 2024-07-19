@@ -85,7 +85,8 @@ CREATE TABLE HistoryCarRental (
     EndDate DATETIME2 NOT NULL,
     ActualReturnTime DATETIME2,
     TotalPrice DECIMAL(10, 2) NOT NULL,
-    createdBy NVARCHAR(255),
-    FOREIGN KEY (RentalId) REFERENCES CarRental(RentalId)
+    StaffId INT,
+    FOREIGN KEY (RentalId) REFERENCES CarRental(RentalId),
+	FOREIGN KEY (StaffId) REFERENCES Staff(StaffId)
 );
 GO

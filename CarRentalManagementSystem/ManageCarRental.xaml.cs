@@ -33,11 +33,14 @@ namespace CarRentalManagementSystem
         }
         public void loadCarRental()
         {
-            lvCarRental.ItemsSource = con.CarRentals.Include(x => x.Customer).Include(r => r.LicensePlatesNavigation).ToList();
+            Staff loggedInUser = Application.Current.Properties["LoggedInUser"] as Staff;
+            lvCarRental.ItemsSource = con.CarRentals.Include(x => x.Customer).Include(r => r.LicensePlatesNavigation).Include(s => s.Staff).Where(x => x.IsDeleted == false && x.StaffId == (loggedInUser.StaffId != null ? loggedInUser.StaffId : 0)).ToList();
         }
         public void loadInfoCar()
         {
-            cbLicenPlates.ItemsSource = con.Cars.ToList();
+            var usedLicensePlates = con.CarRentals.Select(o => o.LicensePlates).ToList();
+
+            cbLicenPlates.ItemsSource = con.Cars .Where(x => !usedLicensePlates.Contains(x.LicensePlates)).ToList();
 
         }
         public void loadInfoCustomer()
@@ -175,6 +178,9 @@ namespace CarRentalManagementSystem
             int endMinute = int.Parse((cbEndTimeMinute.SelectedItem as ComboBoxItem).Content.ToString());
             DateTime startDate = dpStartTime.SelectedDate.Value;
             DateTime endDate = dpEndTime.SelectedDate.Value;
+            Staff loggedInUser = Application.Current.Properties["LoggedInUser"] as Staff;
+            carRental.StaffId = loggedInUser.StaffId;
+            carRental.IsDeleted = false;
             // Kết hợp để tạo DateTime
             DateTime startTime = new DateTime(
                 startDate.Year,
@@ -198,14 +204,66 @@ namespace CarRentalManagementSystem
             string formattedEndTime = endTime.ToString("M/d/yyyy h:mm:ss tt");
             carRental.StartDate = startTime;
             carRental.EndDate = endTime;
+            if (txtTotalPrice.Text.Length > 0)
+            {
+                string totalPrice = txtTotalPrice.Text.Replace(".", "");
+                if (decimal.TryParse(totalPrice, out decimal parseTotalPrice))
+                {
+                    carRental.Total = parseTotalPrice;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Total empty!!!", "Alert", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             con.Add(carRental);
             if (con.SaveChanges() > 0)
             {
-                MessageBox.Show("Add successfully", "Alert", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Add successfully", "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
+                loadCarRental();
+                loadInfoCustomer();
+                loadInfoCar();
+                Clear();
 
             }
-            loadCarRental();
+            else
+            {
+                MessageBox.Show("Add unsuccessfully", "Alert", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
+        }
+        private void CompleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            HistoryCarRental historyCarRental = new HistoryCarRental();
+            CarRental? carRental = (sender as FrameworkElement).DataContext as CarRental;
+            if (carRental != null)
+            {
+                Staff staff = carRental.Staff;
+                historyCarRental.RentalId = carRental.RentalId;
+                if (decimal.TryParse(txtTotalPrice.Text, out decimal totalPrice))
+                {
+                    historyCarRental.TotalPrice = totalPrice;
+                }
+                historyCarRental.ActualReturnTime = DateTime.Now;
+                historyCarRental.Staff = staff;
+                historyCarRental.StartDate = carRental.StartDate;
+                historyCarRental.EndDate = carRental.EndDate;
+                con.HistoryCarRentals.Add(historyCarRental);
+                carRental.IsDeleted = true;
+                con.CarRentals.Update(carRental);
+                if(con.SaveChanges() > 0)
+                {
+                    MessageBox.Show("Order completed", "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
+                    loadCarRental();
+                }
+                else
+                {
+                    MessageBox.Show("Process error!!!", "Alert", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
+            }
         }
     }
 }

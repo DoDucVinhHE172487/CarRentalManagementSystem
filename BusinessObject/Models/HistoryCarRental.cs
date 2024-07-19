@@ -17,7 +17,9 @@ public partial class HistoryCarRental
 
     public decimal TotalPrice { get; set; }
 
-    public string? CreatedBy { get; set; }
+    public int? StaffId { get; set; }
 
     public virtual CarRental? Rental { get; set; }
+
+    public virtual Staff? Staff { get; set; }
 }

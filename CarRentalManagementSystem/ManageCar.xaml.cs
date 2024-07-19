@@ -69,13 +69,19 @@ namespace CarRentalManagementSystem
                 txtBrand.Text = car.Brand.ToString();
                 txtNumberOfSeat.Text = car.NumberOfSeats.ToString();
             }
-
+            loadCar();
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                Car checkLicensePlates = con.Cars.FirstOrDefault(x => x.LicensePlates.Equals(txtLicensePlates.Text.Trim()));
+                if (checkLicensePlates != null)
+                {
+                    MessageBox.Show("License Plates already exist!!!", "Alert", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
                 Car car = new Car();
                 car.LicensePlates = txtLicensePlates.Text;
                 car.CarName = txtName.Text;
@@ -90,12 +96,20 @@ namespace CarRentalManagementSystem
                 car.Fuel = txtFuel.Text;
                 car.IsDeleted = false;
                 con.Cars.Add(car);
-                con.SaveChanges();
-                loadCar();
-                Clear();
-                MessageBox.Show("Create Successfully", "Alert", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                if (con.SaveChanges() > 0)
+                {
+                    loadCar();
+                    Clear();
+                    MessageBox.Show("Create Successfully", "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Create Unsuccessfully", "Alert", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Alert", MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -105,9 +119,15 @@ namespace CarRentalManagementSystem
         {
             try
             {
-                Car car = con.Cars.FirstOrDefault(x =>  x.LicensePlates.Equals(txtLicensePlates.Text));
+                Car car = con.Cars.FirstOrDefault(x => x.LicensePlates.Equals(txtLicensePlates.Text));
                 if (car != null)
                 {
+                    CarRental carRental = con.CarRentals.Where(x => x.IsDeleted == false).FirstOrDefault(x => x.LicensePlates.Equals(car.LicensePlates));
+                    if (carRental != null)
+                    {
+                        MessageBox.Show("Can't Update When The Car Already Rental", "Alert", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
                     car.CarName = txtName.Text;
                     car.Type = txtType.Text;
                     car.Brand = txtBrand.Text;
@@ -120,14 +140,16 @@ namespace CarRentalManagementSystem
                     car.Fuel = txtFuel.Text;
                     car.IsDeleted = false;
                     con.Cars.Update(car);
-                    con.SaveChanges();
-                    loadCar();
-                    Clear();
-                    MessageBox.Show("Update Successfully", "Alert", MessageBoxButton.OK, MessageBoxImage.Error);
+                    if (con.SaveChanges() > 0)
+                    {
+                        loadCar();
+                        Clear();
+                        MessageBox.Show("Update Successfully", "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Update Unsuccessfully", "Alert", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Must select to update", "Alert", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (Exception ex)
@@ -139,12 +161,33 @@ namespace CarRentalManagementSystem
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             Car car = con.Cars.FirstOrDefault(x => x.LicensePlates.Equals(txtLicensePlates.Text));
-            car.IsDeleted = true;
-            con.Cars.Update(car);
-            con.SaveChanges();
-            loadCar();
-            Clear();
-            MessageBox.Show("Delete Successfully", "Alert", MessageBoxButton.OK, MessageBoxImage.Error);
+            if (car != null)
+            {
+                CarRental carRental = con.CarRentals.Where(x => x.IsDeleted == false).FirstOrDefault(x => x.LicensePlates.Equals(car.LicensePlates));
+                if (carRental != null)
+                {
+                    MessageBox.Show("Can't Delete When The Car Already Rental", "Alert", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                car.IsDeleted = true;
+                con.Cars.Update(car);
+                if (con.SaveChanges() > 0)
+                {
+                    MessageBox.Show("Delete Successfully", "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
+                    loadCar();
+                    Clear();
+                }
+                else
+                {
+                    MessageBox.Show("Delete Unsuccessfully", "Alert", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                }
+            }
+            else
+            {
+                MessageBox.Show("Must select to delete", "Alert", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
 
         }
 

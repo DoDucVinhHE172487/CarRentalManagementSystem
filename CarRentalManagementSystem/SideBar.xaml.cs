@@ -37,16 +37,10 @@ namespace CarRentalManagementSystem
             manageCarRental.Show();
         }
 
-        private void Button_Click_3(object sender, RoutedEventArgs e)
+        private void btnManageHistoryCarRental_Click(object sender, RoutedEventArgs e)
         {
-
+            ManageHistoryCarRental manageHistoryCarRental = new ManageHistoryCarRental();
+            manageHistoryCarRental.Show();
         }
-
-        private void Button_Click_4(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        
     }
 }

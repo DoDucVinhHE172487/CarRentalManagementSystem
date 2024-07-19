@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BusinessObjects;
 using BusinessObjects.Models;
+using Microsoft.Identity.Client.NativeInterop;
 
 namespace CarRentalManagementSystem
 {
@@ -32,15 +33,19 @@ namespace CarRentalManagementSystem
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-            Staff staff = con.Staff.FirstOrDefault(x => x.Email == txtEmail.ToString());
+            Staff staffAccount = con.Staff.FirstOrDefault(x => x.Email.Equals(txtEmail.Text.Trim()));
             String jsonData = File.ReadAllText("appsettings.json");
             var adminAccount = JsonSerializer.Deserialize<Staff>(jsonData);
-            if(staff != null && staff.Password.Equals(txtPassword.Password) && staff.IsDeleted == false)
+            if (staffAccount != null && staffAccount.Password.Equals(txtPassword.Password) && staffAccount.IsDeleted == false)
             {
+                Application.Current.Properties["LoggedInUser"] = staffAccount;
                 this.Hide();
+                ManageCar car = new ManageCar();
+                car.Show();
                 //HomeCustomer homeCustomer = new HomeCustomer();
                 //homeCustomer.Show();
-            }else if (adminAccount!=null && adminAccount.Email.Equals(txtEmail.Text) && adminAccount.Password.Equals(txtPassword.Password))
+            }
+            else if (adminAccount != null && adminAccount.Email.Equals(txtEmail.Text) && adminAccount.Password.Equals(txtPassword.Password))
             {
                 this.Hide();
                 ManageCar car = new ManageCar();
