@@ -62,7 +62,7 @@
                 <Label Content="Fuel" HorizontalAlignment="Left" Margin="550,1,0,0" VerticalAlignment="Top" RenderTransformOrigin="-3.267,0.501"/>
                 <Label Content="Rental Price" HorizontalAlignment="Left" Margin="98,54,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.807,0.193"/>
 
-                <TextBox IsReadOnly="True" x:Name="txtLicensePlates" HorizontalAlignment="Left" Margin="9,25,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="81" Height="26" />
+                <TextBox x:Name="txtLicensePlates" HorizontalAlignment="Left" Margin="9,25,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="81" Height="26" />
                 <TextBox x:Name="txtNumberOfSeat" HorizontalAlignment="Left" Margin="539,78,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="83" Height="26" />
                 <TextBox x:Name="txtRentalPrice" HorizontalAlignment="Left" Margin="113,78,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="111" Height="26" />
                 <TextBox x:Name="txtPrice" HorizontalAlignment="Left" Margin="12,78,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="65" Height="26" />

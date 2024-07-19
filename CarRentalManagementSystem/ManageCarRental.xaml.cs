@@ -73,6 +73,9 @@ namespace CarRentalManagementSystem
             cbEndTimeMinute.SelectedItem = null;
             dpEndTime.SelectedDate = null;
             dpStartTime.SelectedDate = null;
+            txtDiscount.Text = "";
+            txtRankLevel.Text = "";
+            txtTotalPrice.Text = "";
         }
 
         private void cbLicenPlates_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -107,9 +110,11 @@ namespace CarRentalManagementSystem
             Customer customerSelected = (sender as ComboBox).SelectedItem as Customer;
             if (customerSelected != null)
             {
-                Customer customer = con.Customers.FirstOrDefault(x => x.CustomerId == customerSelected.CustomerId);
+                Customer customer = con.Customers.Include(x => x.RankLevelNavigation).FirstOrDefault(x => x.CustomerId == customerSelected.CustomerId);
                 txtPhoneNumber.Text = customer.PhoneNumber;
                 txtAddress.Text = customer.Address;
+                txtRankLevel.Text = customer.RankLevelNavigation.RankLevelName;
+                txtDiscount.Text = customer.RankLevelNavigation.Discount.ToString();
             }
         }
 
@@ -136,7 +141,8 @@ namespace CarRentalManagementSystem
                         TimeSpan timeSpan = dtEndTime - dtStartTime;
                         Double result = (Double)timeSpan.TotalMinutes + totalMinute;
                         Double rentalPrice = Double.Parse(txtRentalPrice.Text);
-                        txtTotalPrice.Text = (rentalPrice * result).ToString("N0", new System.Globalization.CultureInfo("de-DE"));
+                        Double discount = Double.Parse(txtDiscount.Text);
+                        txtTotalPrice.Text = (rentalPrice * result - (rentalPrice * result * (discount / 100))).ToString("N0", new System.Globalization.CultureInfo("de-DE"));
                     }
                     else
                     {
@@ -199,7 +205,7 @@ namespace CarRentalManagementSystem
 
             }
             loadCarRental();
-            
+
         }
     }
 }

@@ -37,7 +37,7 @@ public partial class CarRentalManagementSystemContext : DbContext
     {
         modelBuilder.Entity<Car>(entity =>
         {
-            entity.HasKey(e => e.LicensePlates).HasName("PK__Car__AE763D17AA671A00");
+            entity.HasKey(e => e.LicensePlates).HasName("PK__Car__AE763D176291A5C3");
 
             entity.ToTable("Car");
 
@@ -58,7 +58,7 @@ public partial class CarRentalManagementSystemContext : DbContext
 
         modelBuilder.Entity<CarRental>(entity =>
         {
-            entity.HasKey(e => e.RentalId).HasName("PK__CarRenta__9700594306AD0188");
+            entity.HasKey(e => e.RentalId).HasName("PK__CarRenta__97005943D494A1F8");
 
             entity.ToTable("CarRental");
 
@@ -68,20 +68,20 @@ public partial class CarRentalManagementSystemContext : DbContext
 
             entity.HasOne(d => d.Customer).WithMany(p => p.CarRentals)
                 .HasForeignKey(d => d.CustomerId)
-                .HasConstraintName("FK__CarRental__Custo__31EC6D26");
+                .HasConstraintName("FK__CarRental__Custo__3F466844");
 
             entity.HasOne(d => d.LicensePlatesNavigation).WithMany(p => p.CarRentals)
                 .HasForeignKey(d => d.LicensePlates)
-                .HasConstraintName("FK__CarRental__Licen__32E0915F");
+                .HasConstraintName("FK__CarRental__Licen__403A8C7D");
 
             entity.HasOne(d => d.Staff).WithMany(p => p.CarRentals)
                 .HasForeignKey(d => d.StaffId)
-                .HasConstraintName("FK__CarRental__Staff__30F848ED");
+                .HasConstraintName("FK__CarRental__Staff__3E52440B");
         });
 
         modelBuilder.Entity<CarStatus>(entity =>
         {
-            entity.HasKey(e => e.CarStatusId).HasName("PK__CarStatu__4A328CC69D652255");
+            entity.HasKey(e => e.CarStatusId).HasName("PK__CarStatu__4A328CC6C73C6D98");
 
             entity.ToTable("CarStatus");
 
@@ -90,7 +90,7 @@ public partial class CarRentalManagementSystemContext : DbContext
 
         modelBuilder.Entity<Customer>(entity =>
         {
-            entity.HasKey(e => e.CustomerId).HasName("PK__Customer__A4AE64D86A4F10D8");
+            entity.HasKey(e => e.CustomerId).HasName("PK__Customer__A4AE64D82BBA1A9F");
 
             entity.ToTable("Customer");
 
@@ -103,12 +103,12 @@ public partial class CarRentalManagementSystemContext : DbContext
 
             entity.HasOne(d => d.RankLevelNavigation).WithMany(p => p.Customers)
                 .HasForeignKey(d => d.RankLevel)
-                .HasConstraintName("FK__Customer__RankLe__29572725");
+                .HasConstraintName("FK__Customer__RankLe__398D8EEE");
         });
 
         modelBuilder.Entity<HistoryCarRental>(entity =>
         {
-            entity.HasKey(e => e.HistoryCarRentalId).HasName("PK__HistoryC__897732B2B646D3C0");
+            entity.HasKey(e => e.HistoryCarRentalId).HasName("PK__HistoryC__897732B202053A0E");
 
             entity.ToTable("HistoryCarRental");
 
@@ -119,12 +119,12 @@ public partial class CarRentalManagementSystemContext : DbContext
 
             entity.HasOne(d => d.Rental).WithMany(p => p.HistoryCarRentals)
                 .HasForeignKey(d => d.RentalId)
-                .HasConstraintName("FK__HistoryCa__Renta__35BCFE0A");
+                .HasConstraintName("FK__HistoryCa__Renta__4316F928");
         });
 
         modelBuilder.Entity<RankLevelCustomer>(entity =>
         {
-            entity.HasKey(e => e.RankLevel).HasName("PK__RankLeve__A7254A673334F64C");
+            entity.HasKey(e => e.RankLevelId).HasName("PK__RankLeve__B7D67F90F677DDD0");
 
             entity.ToTable("RankLevelCustomer");
 
@@ -133,9 +133,9 @@ public partial class CarRentalManagementSystemContext : DbContext
 
         modelBuilder.Entity<Staff>(entity =>
         {
-            entity.HasKey(e => e.StaffId).HasName("PK__Staff__96D4AB1748E1BF9A");
+            entity.HasKey(e => e.StaffId).HasName("PK__Staff__96D4AB1712F8AC43");
 
-            entity.HasIndex(e => e.Email, "UQ__Staff__A9D10534DE96B6B6").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__Staff__A9D105348ADA49D0").IsUnique();
 
             entity.Property(e => e.Address).HasMaxLength(255);
             entity.Property(e => e.Email).HasMaxLength(50);

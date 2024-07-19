@@ -77,6 +77,7 @@ namespace CarRentalManagementSystem
             try
             {
                 Car car = new Car();
+                car.LicensePlates = txtLicensePlates.Text;
                 car.CarName = txtName.Text;
                 car.Type = txtType.Text;
                 car.Brand = txtBrand.Text;
@@ -104,23 +105,30 @@ namespace CarRentalManagementSystem
         {
             try
             {
-                Car car = con.Cars.FirstOrDefault(x =>  x.LicensePlates.Equals(txtLicensePlates.ToString()));
-                car.CarName = txtName.Text;
-                car.Type = txtType.Text;
-                car.Brand = txtBrand.Text;
-                car.Color = txtColor.Text;
-                car.Price = decimal.Parse(txtPrice.Text);
-                car.RentalPrice = decimal.Parse(txtRentalPrice.Text);
-                car.CarStatusId = (cbStatus.SelectedItem as CarStatus).CarStatusId;
-                car.DateCar = DateOnly.Parse(dpDate.Text);
-                car.NumberOfSeats = Int32.Parse(txtNumberOfSeat.Text);
-                car.Fuel = txtFuel.Text;
-                car.IsDeleted = false;
-                con.Cars.Update(car);
-                con.SaveChanges();
-                loadCar();
-                Clear();
-                MessageBox.Show("Update Successfully", "Alert", MessageBoxButton.OK, MessageBoxImage.Error);
+                Car car = con.Cars.FirstOrDefault(x =>  x.LicensePlates.Equals(txtLicensePlates.Text));
+                if (car != null)
+                {
+                    car.CarName = txtName.Text;
+                    car.Type = txtType.Text;
+                    car.Brand = txtBrand.Text;
+                    car.Color = txtColor.Text;
+                    car.Price = decimal.Parse(txtPrice.Text);
+                    car.RentalPrice = decimal.Parse(txtRentalPrice.Text);
+                    car.CarStatusId = (cbStatus.SelectedItem as CarStatus).CarStatusId;
+                    car.DateCar = DateOnly.Parse(dpDate.Text);
+                    car.NumberOfSeats = Int32.Parse(txtNumberOfSeat.Text);
+                    car.Fuel = txtFuel.Text;
+                    car.IsDeleted = false;
+                    con.Cars.Update(car);
+                    con.SaveChanges();
+                    loadCar();
+                    Clear();
+                    MessageBox.Show("Update Successfully", "Alert", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    MessageBox.Show("Update Unsuccessfully", "Alert", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
             catch (Exception ex)
             {
@@ -130,7 +138,7 @@ namespace CarRentalManagementSystem
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            Car car = con.Cars.FirstOrDefault(x => x.LicensePlates.Equals(txtLicensePlates.ToString()));
+            Car car = con.Cars.FirstOrDefault(x => x.LicensePlates.Equals(txtLicensePlates.Text));
             car.IsDeleted = true;
             con.Cars.Update(car);
             con.SaveChanges();

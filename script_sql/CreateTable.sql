@@ -18,8 +18,9 @@ CREATE TABLE Staff (
 GO
 -- Bảng RankLevelCustomer
 CREATE TABLE RankLevelCustomer (
-    RankLevel INT PRIMARY KEY IDENTITY(1,1),
+    RankLevelId INT PRIMARY KEY IDENTITY(1,1),
 	RankLevelName NVARCHAR(50),
+	Discount INT
 );
 GO
 -- Bảng Customer
@@ -30,7 +31,7 @@ CREATE TABLE Customer (
     Address NVARCHAR(255) NOT NULL,
 	Point INT,
 	RankLevel INT,
-	FOREIGN KEY (RankLevel) REFERENCES RankLevelCustomer(RankLevel),
+	FOREIGN KEY (RankLevel) REFERENCES RankLevelCustomer(RankLevelId),
     isDeleted BIT
 );
 GO
