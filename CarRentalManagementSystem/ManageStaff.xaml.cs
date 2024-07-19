@@ -1,4 +1,5 @@
 ﻿using BusinessObjects.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -18,6 +19,7 @@ namespace CarRentalManagementSystem
             con = new CarRentalManagementSystemContext();
             LoadStaff();
             LoadData(DateTime.Now.Month);
+            cmbMonth.SelectedIndex = DateTime.Now.Month - 1;
         }
 
         public void LoadStaff()
@@ -288,19 +290,12 @@ namespace CarRentalManagementSystem
 
         private void ApplySearchFilters()
         {
-            string searchName = txtSearchName.Text.Trim().ToLower();
-            string searchEmail = txtSearchEmail.Text.Trim().ToLower();
-
+            string searchNameEmail = txtSearchNameEmail.Text.Trim().ToLower();
             var staffList = con.Staff.AsQueryable();
 
-            if (!string.IsNullOrEmpty(searchName))
+            if (!string.IsNullOrEmpty(searchNameEmail))
             {
-                staffList = staffList.Where(s => s.StaffName.ToLower().Contains(searchName) && s.IsDeleted == false);
-            }
-
-            if (!string.IsNullOrEmpty(searchEmail))
-            {
-                staffList = staffList.Where(s => s.Email.ToLower().Contains(searchEmail) && s.IsDeleted == false);
+                staffList = staffList.Where(s => s.StaffName.ToLower().Contains(searchNameEmail) && s.IsDeleted == false || s.Email.ToLower().Contains(searchNameEmail) && s.IsDeleted == false);
             }
 
             lvStaff.ItemsSource = staffList.ToList();
@@ -319,39 +314,31 @@ namespace CarRentalManagementSystem
 
         private void LoadData(int month)
         {
+            var staffList = con.Staff.Where(s => s.IsDeleted == false).ToList();
+            var rentalsInMonth = con.HistoryCarRentals
+                .Include(h => h.Rental)
+                .Where(h => h.ActualReturnTime.HasValue && h.ActualReturnTime.Value.Month == month)
+                .ToList();
+
+            var staffProfit = staffList.Select(staff =>
             {
-                var staffList = con.Staff.Where(s => s.IsDeleted == false).ToList();
-                var rentalsInMonth = con.HistoryCarRentals
-                    .Where(h =>h.ActualReturnTime.HasValue && h.ActualReturnTime.Value.Month == month)
-                    .ToList();
-                var staffCommissions = staffList.Select(staff =>
+                var staffRentals = rentalsInMonth.Where(rental => rental.Rental.Staff.StaffId == staff.StaffId).ToList();
+                var commission = staffRentals.Sum(rental => rental.TotalPrice) * 0.03m;
+                var totalSalary = staff.Salary + commission;
+
+                return new StaffSalary
                 {
-                    var staffRentals = rentalsInMonth.Where(r => r.StaffId == staff.StaffId);
-                    var commission = staffRentals.Sum(rental => rental.TotalPrice) * 0.03m;
-                    var totalSalary = staff.Salary + commission;
-                    return new StaffCommission
-                    {
-                        StaffId = staff.StaffId,
-                        StaffName = staff.StaffName,
-                        Salary = staff.Salary,
-                        RentalCount = staffRentals.Count(),
-                        Commission = commission,
-                        TotalSalary = totalSalary
-                    };
-                }).ToList();
+                    StaffId = staff.StaffId,
+                    StaffName = staff.StaffName,
+                    Salary = (decimal)staff.Salary,
+                    RentalCount = staffRentals.Count,
+                    Commission = commission,
+                    TotalSalary = totalSalary
+                };
+            }).ToList();
 
-                dgSalary.ItemsSource = staffCommissions;
-            }
+            dgSalary.ItemsSource = staffProfit;
         }
-    }
 
-    internal class StaffCommission
-    {
-        public int StaffId { get; set; }
-        public object StaffName { get; set; }
-        public object Salary { get; set; }
-        public int RentalCount { get; set; }
-        public object Commission { get; set; }
-        public object TotalSalary { get; set; }
     }
 }

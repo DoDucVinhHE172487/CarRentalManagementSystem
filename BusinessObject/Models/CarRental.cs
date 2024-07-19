@@ -23,6 +23,8 @@ public partial class CarRental
 
     public virtual Customer? Customer { get; set; }
 
+    public virtual ICollection<HistoryCarRental> HistoryCarRentals { get; set; } = new List<HistoryCarRental>();
+
     public virtual Car? LicensePlatesNavigation { get; set; }
 
     public virtual Staff? Staff { get; set; }

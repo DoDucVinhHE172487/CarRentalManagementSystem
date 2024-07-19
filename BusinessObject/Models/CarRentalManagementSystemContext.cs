@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace BusinessObjects.Models;
 
@@ -29,15 +30,22 @@ public partial class CarRentalManagementSystemContext : DbContext
 
     public virtual DbSet<Staff> Staff { get; set; }
 
+    public virtual DbSet<StaffSalary> StaffSalaries { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=localhost;database=CarRentalManagementSystem;Trusted_Connection=SSPI;Encrypt=false;TrustServerCertificate=true");
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            var connectionString = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetConnectionString("DB");
+            optionsBuilder.UseSqlServer(connectionString);
+        }
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Car>(entity =>
         {
-            entity.HasKey(e => e.LicensePlates).HasName("PK__Car__AE763D170BE56A2D");
+            entity.HasKey(e => e.LicensePlates).HasName("PK__Car__AE763D17A9C47DD6");
 
             entity.ToTable("Car");
 
@@ -53,12 +61,12 @@ public partial class CarRentalManagementSystemContext : DbContext
 
             entity.HasOne(d => d.CarStatus).WithMany(p => p.Cars)
                 .HasForeignKey(d => d.CarStatusId)
-                .HasConstraintName("FK__Car__CarStatusId__2E1BDC42");
+                .HasConstraintName("FK__Car__CarStatusId__4316F928");
         });
 
         modelBuilder.Entity<CarRental>(entity =>
         {
-            entity.HasKey(e => e.RentalId).HasName("PK__CarRenta__97005943AD766A09");
+            entity.HasKey(e => e.RentalId).HasName("PK__CarRenta__9700594361607673");
 
             entity.ToTable("CarRental");
 
@@ -68,20 +76,20 @@ public partial class CarRentalManagementSystemContext : DbContext
 
             entity.HasOne(d => d.Customer).WithMany(p => p.CarRentals)
                 .HasForeignKey(d => d.CustomerId)
-                .HasConstraintName("FK__CarRental__Custo__31EC6D26");
+                .HasConstraintName("FK__CarRental__Custo__46E78A0C");
 
             entity.HasOne(d => d.LicensePlatesNavigation).WithMany(p => p.CarRentals)
                 .HasForeignKey(d => d.LicensePlates)
-                .HasConstraintName("FK__CarRental__Licen__32E0915F");
+                .HasConstraintName("FK__CarRental__Licen__47DBAE45");
 
             entity.HasOne(d => d.Staff).WithMany(p => p.CarRentals)
                 .HasForeignKey(d => d.StaffId)
-                .HasConstraintName("FK__CarRental__Staff__30F848ED");
+                .HasConstraintName("FK__CarRental__Staff__45F365D3");
         });
 
         modelBuilder.Entity<CarStatus>(entity =>
         {
-            entity.HasKey(e => e.CarStatusId).HasName("PK__CarStatu__4A328CC693803E30");
+            entity.HasKey(e => e.CarStatusId).HasName("PK__CarStatu__4A328CC68616F46C");
 
             entity.ToTable("CarStatus");
 
@@ -90,7 +98,7 @@ public partial class CarRentalManagementSystemContext : DbContext
 
         modelBuilder.Entity<Customer>(entity =>
         {
-            entity.HasKey(e => e.CustomerId).HasName("PK__Customer__A4AE64D8F8F269B9");
+            entity.HasKey(e => e.CustomerId).HasName("PK__Customer__A4AE64D89657A6E8");
 
             entity.ToTable("Customer");
 
@@ -103,21 +111,25 @@ public partial class CarRentalManagementSystemContext : DbContext
 
             entity.HasOne(d => d.RankLevelNavigation).WithMany(p => p.Customers)
                 .HasForeignKey(d => d.RankLevel)
-                .HasConstraintName("FK__Customer__RankLe__29572725");
+                .HasConstraintName("FK__Customer__RankLe__3E52440B");
         });
 
         modelBuilder.Entity<HistoryCarRental>(entity =>
         {
-            entity.HasKey(e => e.HistoryCarRentalId).HasName("PK__HistoryC__897732B2FF343CAA");
+            entity.HasKey(e => e.HistoryCarRentalId).HasName("PK__HistoryC__897732B21E26B07D");
 
             entity.ToTable("HistoryCarRental");
 
             entity.Property(e => e.TotalPrice).HasColumnType("decimal(10, 2)");
+
+            entity.HasOne(d => d.Rental).WithMany(p => p.HistoryCarRentals)
+                .HasForeignKey(d => d.RentalId)
+                .HasConstraintName("FK__HistoryCa__Renta__4AB81AF0");
         });
 
         modelBuilder.Entity<RankLevelCustomer>(entity =>
         {
-            entity.HasKey(e => e.RankLevelId).HasName("PK__RankLeve__B7D67F9008D489F3");
+            entity.HasKey(e => e.RankLevelId).HasName("PK__RankLeve__B7D67F90C1CA744A");
 
             entity.ToTable("RankLevelCustomer");
 
@@ -126,9 +138,9 @@ public partial class CarRentalManagementSystemContext : DbContext
 
         modelBuilder.Entity<Staff>(entity =>
         {
-            entity.HasKey(e => e.StaffId).HasName("PK__Staff__96D4AB175AEC28C9");
+            entity.HasKey(e => e.StaffId).HasName("PK__Staff__96D4AB179780BA42");
 
-            entity.HasIndex(e => e.Email, "UQ__Staff__A9D105347A7FA728").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__Staff__A9D1053485856541").IsUnique();
 
             entity.Property(e => e.Address).HasMaxLength(255);
             entity.Property(e => e.Email).HasMaxLength(50);
@@ -139,6 +151,22 @@ public partial class CarRentalManagementSystemContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.Salary).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.StaffName).HasMaxLength(255);
+        });
+
+        modelBuilder.Entity<StaffSalary>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("StaffSalary");
+
+            entity.Property(e => e.Commission).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.Salary).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.StaffName).HasMaxLength(255);
+            entity.Property(e => e.TotalSalary).HasColumnType("decimal(18, 2)");
+
+            entity.HasOne(d => d.Staff).WithMany()
+                .HasForeignKey(d => d.StaffId)
+                .HasConstraintName("FK__StaffSala__Total__398D8EEE");
         });
 
         OnModelCreatingPartial(modelBuilder);

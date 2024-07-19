@@ -16,6 +16,9 @@
     <Compile Update="ManageHistoryCarRental.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="ReportandStatistics.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="SideBar.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -34,6 +37,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="ManageHistoryCarRental.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ReportandStatistics.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="SideBar.xaml">

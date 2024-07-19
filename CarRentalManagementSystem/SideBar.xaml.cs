@@ -54,5 +54,13 @@ namespace CarRentalManagementSystem
             window.Close();
             manageStaff.Show();
         }
+
+        private void ReportandStatistics(object sender, RoutedEventArgs e)
+        {
+            ReportandStatistics reportandStatistics = new ReportandStatistics();
+            Window window = Window.GetWindow(this);
+            window.Close();
+            reportandStatistics.Show();
+        }
     }
 }

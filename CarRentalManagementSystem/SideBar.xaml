@@ -13,7 +13,7 @@
             <Button Content="Manage Car Rental" Margin="5" Click="btnManageCarRetal_Click" />
             <Button Content="Manage Rental History" Margin="5" />
             <Button Content="Manage Staff" Margin="5" Click="btnManageStaff_Click" />
-            <Button Content="Report and Statistics" Margin="5" />
+            <Button Content="Report and Statistics" Margin="5" Click="ReportandStatistics"/>
         </StackPanel>
     </Grid>
 </UserControl>

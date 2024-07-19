@@ -5,47 +5,49 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CarRentalManagementSystem"
         mc:Ignorable="d"
-        Title="ManageCustomer" WindowStartupLocation="CenterScreen" Height="450" Width="800" ResizeMode="NoResize">
+        Title="Manage Customer" WindowStartupLocation="CenterScreen" Height="500" Width="850" >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- Include SidebarControl vào cột đầu tiên -->
+        <!-- Include SidebarControl in the first column -->
         <local:SideBar Grid.Column="0"/>
-        <!-- Nội dung chính của trang -->
 
-        <Grid Grid.Column="1">
+        <!-- Main content of the page -->
+        <Grid Grid.Column="1" >
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.1*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0">
-                <TextBlock Text="Search by Name" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="4,0,0,0" ></TextBlock>
-                <TextBox x:Name="txtSearchName" HorizontalAlignment="Left" Margin="4,15,0,0" VerticalAlignment="Top" Width="150"/>
-                <TextBlock Text="Search by PhoneNumber" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="170,0,0,0" />
-                <TextBox x:Name="txtSearchPhoneNumber" HorizontalAlignment="Left" Margin="170,15,0,0" VerticalAlignment="Top" Width="150"/>
-                <Button Content="Search" x:Name="btnSearchCustomer" HorizontalAlignment="Left" Margin="328,14,0,0" VerticalAlignment="Top" Click="btnSearchCustomer_Click" Width="60"/>
-                <TextBlock Text="Filter by Rank Level" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="414,-3,0,0" />
-                <ComboBox Name="cboRankLevel" HorizontalAlignment="Left" Margin="415,12,0,0" VerticalAlignment="Top"  Width="100" SelectionChanged="cbRankLevelCustomer_SelectionChanged"/>
-                <Button Content="Create" x:Name="btnAddCustomer" HorizontalAlignment="Left" Margin="582,0,0,0" VerticalAlignment="Center" Click="btnAddCustomer_Click" Width="46"/>
-            </Grid>
+
+            <!-- Search and Filter Panel -->
+            <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,0,10">
+                <TextBlock Text="Search by Name,Mobile:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <TextBox x:Name="txtSearchNameMobile" Width="150" Margin="0,0,10,0"/>
+                <Button Content="Search" x:Name="btnSearchCustomer" Width="75" Margin="0,0,10,0" Click="btnSearchCustomer_Click"/>
+                <TextBlock Text="Filter by Rank:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <ComboBox Name="cboRankLevel" Width="120" Margin="0,0,10,0" SelectionChanged="cbRankLevelCustomer_SelectionChanged"/>
+                <Button Content="Create" x:Name="btnAddCustomer" Width="75" Click="btnAddCustomer_Click"/>
+            </StackPanel>
+
+            <!-- Customer List View -->
             <Grid Grid.Row="1">
-                <ListView x:Name="lvCustomer">
+                <ListView x:Name="lvCustomer" Margin="0,10,0,0">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Width="100" Header="Id" DisplayMemberBinding="{Binding Path=CustomerId}" />
-                            <GridViewColumn Width="125" Header="Name" DisplayMemberBinding="{Binding Path=CustomerName}" />
-                            <GridViewColumn Width="125" Header="Phone Number" DisplayMemberBinding="{Binding Path=PhoneNumber}" />
+                            <GridViewColumn Width="25" Header="ID" DisplayMemberBinding="{Binding Path=CustomerId}" />
+                            <GridViewColumn Width="150" Header="Name" DisplayMemberBinding="{Binding Path=CustomerName}" />
+                            <GridViewColumn Width="150" Header="Phone Number" DisplayMemberBinding="{Binding Path=PhoneNumber}" />
                             <GridViewColumn Width="125" Header="Address" DisplayMemberBinding="{Binding Path=Address}" />
-                            <GridViewColumn Width="75" Header="RankLevel" DisplayMemberBinding="{Binding Path=RankLevelNavigation.RankLevelName}" />
-                            <GridViewColumn Width="100" Header="Action">
+                            <GridViewColumn Width="100" Header="Rank Level" DisplayMemberBinding="{Binding Path=RankLevelNavigation.RankLevelName}" />
+                            <GridViewColumn Width="150" Header="Action">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <Button Content="Edit" Click="btnEditCustomer_Click" Margin="0,0,5,0"/>
-                                            <Button Content="Delete" Click="btnDeleteCustomer_Click"/>
+                                            <Button Content="Edit" Width="50" Margin="5,0" Click="btnEditCustomer_Click"/>
+                                            <Button Content="Delete" Width="50" Margin="5,0" Click="btnDeleteCustomer_Click"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
@@ -54,57 +56,70 @@
                     </ListView.View>
                 </ListView>
             </Grid>
-            <!-- Popup để chỉnh sửa -->
+
+            <!-- Edit Customer Popup -->
             <Popup x:Name="popupEditCustomer" IsOpen="False" Placement="Relative" PlacementTarget="{Binding ElementName=lvCustomer}">
-                <Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Padding="10">
+                <Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="5">
                     <StackPanel>
                         <TextBlock Text="Edit Customer" HorizontalAlignment="Center" Margin="0,0,0,10" FontWeight="Bold"/>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Customer Id:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtCustomerId" IsReadOnly="True" Width="100"/>
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Customer ID:" Grid.Row="0" Grid.Column="0" Margin="0,0,10,0"/>
+                            <TextBox x:Name="txtCustomerId" Grid.Row="0" Grid.Column="1" Width="200" IsReadOnly="True"/>
+                            <TextBlock Text="Name:" Grid.Row="1" Grid.Column="0" Margin="0,0,10,0"/>
+                            <TextBox x:Name="txtCustomerName" Grid.Row="1" Grid.Column="1" Width="200"/>
+                            <TextBlock Text="Phone Number:" Grid.Row="2" Grid.Column="0" Margin="0,0,10,0"/>
+                            <TextBox x:Name="txtPhoneNumber" Grid.Row="2" Grid.Column="1" Width="200"/>
+                            <TextBlock Text="Address:" Grid.Row="3" Grid.Column="0" Margin="0,0,10,0"/>
+                            <TextBox x:Name="txtAddress" Grid.Row="3" Grid.Column="1" Width="200"/>
+                        </Grid>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Content="Save" Width="80" Margin="5,0" Click="SaveCustomerButton_Click"/>
+                            <Button Content="Cancel" Width="80" Margin="5,0" Click="CancelCustomerButton_Click"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Name:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtCustomerName" Width="200"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Phone Number:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtPhoneNumber" Width="150"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Address:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtAddress" Width="200"/>
-                        </StackPanel>
-                        <Button Content="Save" Width="80" HorizontalAlignment="Center" Click="SaveCustomerButton_Click"/>
-                        <Button Content="Cancel" Width="80" HorizontalAlignment="Center" Click="CancelCustomerButton_Click"/>
-
                     </StackPanel>
                 </Border>
             </Popup>
-            <!-- Popup để create -->
+
+            <!-- Create Customer Popup -->
             <Popup x:Name="popupCreateCustomer" IsOpen="False" Placement="Relative">
-                <Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Padding="10">
+                <Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="5">
                     <StackPanel>
                         <TextBlock Text="Create Customer" HorizontalAlignment="Center" Margin="0,0,0,10" FontWeight="Bold"/>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Name:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtCustomerNameCreate" Width="200"/>
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Name:" Grid.Row="0" Grid.Column="0" Margin="0,0,10,0"/>
+                            <TextBox x:Name="txtCustomerNameCreate" Grid.Row="0" Grid.Column="1" Width="200"/>
+                            <TextBlock Text="Phone Number:" Grid.Row="1" Grid.Column="0" Margin="0,0,10,0"/>
+                            <TextBox x:Name="txtPhoneNumberCreate" Grid.Row="1" Grid.Column="1" Width="200"/>
+                            <TextBlock Text="Address:" Grid.Row="2" Grid.Column="0" Margin="0,0,10,0"/>
+                            <TextBox x:Name="txtAddressCreate" Grid.Row="2" Grid.Column="1" Width="200"/>
+                        </Grid>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Content="Create" Width="80" Margin="5,0" Click="CustomerButtonCreate_Click"/>
+                            <Button Content="Cancel" Width="80" Margin="5,0" Click="CancelCustomerButtonCreate_Click"/>
+                            <Button Content="Clear" Width="80" Margin="5,0" Click="btnClearInput_Click"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Phone Number:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtPhoneNumberCreate" Width="150"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Address:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtAddressCreate" Width="200"/>
-                        </StackPanel>
-                        <Button Content="Create" Width="80" HorizontalAlignment="Center" Click="CustomerButtonCreate_Click"/>
-                        <Button Content="Cancel" Width="80" HorizontalAlignment="Center" Click="CancelCustomerButtonCreate_Click"/>
-                        <Button Content="Clear" Width="80" HorizontalAlignment="Center" Click="btnClearInput_Click"/>
                     </StackPanel>
                 </Border>
             </Popup>
         </Grid>
-
     </Grid>
 </Window>

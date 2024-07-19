@@ -16,4 +16,6 @@ public partial class HistoryCarRental
     public DateTime? ActualReturnTime { get; set; }
 
     public decimal TotalPrice { get; set; }
+
+    public virtual CarRental? Rental { get; set; }
 }

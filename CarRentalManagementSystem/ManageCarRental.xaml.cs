@@ -237,7 +237,7 @@ namespace CarRentalManagementSystem
                     historyCarRental.TotalPrice = totalPrice;
                 }
                 historyCarRental.ActualReturnTime = DateTime.Now;
-                historyCarRental.Staff = staff;
+                historyCarRental.Rental.Staff = staff;
                 historyCarRental.StartDate = carRental.StartDate;
                 historyCarRental.EndDate = carRental.EndDate;
                 con.HistoryCarRentals.Add(historyCarRental);

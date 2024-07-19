@@ -222,8 +222,7 @@ namespace CarRentalManagementSystem
         }
         private void ApplyFilters()
         {
-            string searchName = txtSearchName.Text.Trim().ToLower();
-            string searchPhone = txtSearchPhoneNumber.Text.Trim().ToLower();
+            string searchNameMobile = txtSearchNameMobile.Text.Trim().ToLower();
             string selectedRankLevel = (cboRankLevel.SelectedItem as RankLevelCustomer)?.RankLevelName;
 
             var customers = con.Customers
@@ -231,16 +230,10 @@ namespace CarRentalManagementSystem
                                .Where(c => c.IsDeleted == false)
                                .ToList();
 
-            if (!string.IsNullOrEmpty(searchName))
+            if (!string.IsNullOrEmpty(searchNameMobile))
             {
-                customers = customers.Where(c => c.CustomerName.ToLower().Contains(searchName)).ToList();
+                customers = customers.Where(c => c.CustomerName.ToLower().Contains(searchNameMobile) || c.PhoneNumber.Contains(searchNameMobile)).ToList();
             }
-
-            if (!string.IsNullOrEmpty(searchPhone))
-            {
-                customers = customers.Where(c => c.PhoneNumber.Contains(searchPhone)).ToList();
-            }
-
             if (selectedRankLevel != "All" && !string.IsNullOrEmpty(selectedRankLevel))
             {
                 customers = customers.Where(c => c.RankLevelNavigation.RankLevelName == selectedRankLevel).ToList();
