@@ -16,10 +16,4 @@ public partial class HistoryCarRental
     public DateTime? ActualReturnTime { get; set; }
 
     public decimal TotalPrice { get; set; }
-
-    public int? StaffId { get; set; }
-
-    public virtual CarRental? Rental { get; set; }
-
-    public virtual Staff? Staff { get; set; }
 }

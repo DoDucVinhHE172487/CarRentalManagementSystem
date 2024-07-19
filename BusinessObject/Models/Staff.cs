@@ -22,6 +22,4 @@ public partial class Staff
     public bool? IsDeleted { get; set; }
 
     public virtual ICollection<CarRental> CarRentals { get; set; } = new List<CarRental>();
-
-    public virtual ICollection<HistoryCarRental> HistoryCarRentals { get; set; } = new List<HistoryCarRental>();
 }
