@@ -1,0 +1,29 @@
+﻿<Window x:Class="CarRentalManagementSystem.DetailHistoryCarRental"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CarRentalManagementSystem"
+        mc:Ignorable="d"
+        Title="DetailHistoryCarRental" Height="450" Width="800">
+    <Grid>
+        <Grid Background="AliceBlue" Margin="50,72,50,44">
+            <TextBox HorizontalAlignment="Left" Margin="114,21,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="142" Height="26"/>
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Details History Car Rental" VerticalAlignment="Top" Height="30" Width="235" FontWeight="Bold" FontSize="18" Foreground="Red" Margin="-4,-59,0,0"/>
+            <DatePicker HorizontalAlignment="Left" Margin="239,-25,0,0" VerticalAlignment="Top" Width="210"/>
+            <Label Content="ID" HorizontalAlignment="Left" Margin="33,21,0,0" VerticalAlignment="Top"/>
+            <TextBox HorizontalAlignment="Left" Margin="81,239,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="142" Height="26"/>
+            <TextBox HorizontalAlignment="Left" Margin="236,164,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="142" Height="26"/>
+            <TextBox HorizontalAlignment="Left" Margin="325,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="142" Height="26"/>
+            <TextBox HorizontalAlignment="Left" Margin="307,133,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="142" Height="26"/>
+            <Label Content="ID" HorizontalAlignment="Left" Margin="33,21,0,0" VerticalAlignment="Top"/>
+            <Label Content="ID" HorizontalAlignment="Left" Margin="33,21,0,0" VerticalAlignment="Top"/>
+            <Label Content="ID" HorizontalAlignment="Left" Margin="33,21,0,0" VerticalAlignment="Top"/>
+            <Label Content="ID" HorizontalAlignment="Left" Margin="33,21,0,0" VerticalAlignment="Top"/>
+            <Label Content="ID" HorizontalAlignment="Left" Margin="33,21,0,0" VerticalAlignment="Top"/>
+
+        </Grid>
+        <TextBlock HorizontalAlignment="Center" Margin="0,31,0,0" TextWrapping="Wrap" Text="Actual Return Time" VerticalAlignment="Top"/>
+
+    </Grid>
+</Window>
