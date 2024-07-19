@@ -1,9 +1,8 @@
 ﻿using BusinessObjects.Models;
-using System;
-using System.Linq;
-using System.Net.Mail;
+using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace CarRentalManagementSystem
 {
@@ -18,14 +17,29 @@ namespace CarRentalManagementSystem
             InitializeComponent();
             con = new CarRentalManagementSystemContext();
             loadCustomer();
+            loadRankLevel();
         }
         public void loadCustomer()
         {
-            lvCustomer.ItemsSource = con.Customers.ToList();
+            lvCustomer.ItemsSource = con.Customers.Include(c => c.RankLevelNavigation).Where(c => c.IsDeleted == false).ToList();
+        }
+        public void loadRankLevel()
+        {
+            var rankLevels = con.RankLevelCustomers.ToList();
+            rankLevels.Insert(0, new RankLevelCustomer { RankLevelName = "All" }); 
+            cboRankLevel.ItemsSource = rankLevels;
+            cboRankLevel.DisplayMemberPath = "RankLevelName"; 
+            cboRankLevel.SelectedIndex = 0;
+        }
+
+        private void cbRankLevelCustomer_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ApplyFilters();
         }
         private void btnAddCustomer_Click(object sender, RoutedEventArgs e)
         {
             popupCreateCustomer.IsOpen = true;
+            popupEditCustomer.IsOpen = false;
         }
         private void CancelCustomerButtonCreate_Click(object sender, RoutedEventArgs e)
         {
@@ -36,13 +50,16 @@ namespace CarRentalManagementSystem
         }
         private void btnEditCustomer_Click(object sender, RoutedEventArgs e)
         {
+            popupCreateCustomer.IsOpen = false;
             if (sender is FrameworkElement element && element.DataContext is Customer customer)
             {
+                popupEditCustomer.IsOpen = true;
                 txtCustomerId.Text = customer.CustomerId.ToString();
                 txtCustomerName.Text = customer.CustomerName;
                 txtPhoneNumber.Text = customer.PhoneNumber;
                 txtAddress.Text = customer.Address;
-                popupEditCustomer.IsOpen = true;
+
+
             }
             else
             {
@@ -69,7 +86,7 @@ namespace CarRentalManagementSystem
                         con.Customers.Update(customer);
                         con.SaveChanges();
                         popupEditCustomer.IsOpen = false;
-                        MessageBox.Show("Customer updated successfully", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show("Customer updated successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                         loadCustomer();
                     }
                     else
@@ -107,13 +124,16 @@ namespace CarRentalManagementSystem
                     {
                         CustomerName = txtCustomerNameCreate.Text,
                         PhoneNumber = txtPhoneNumberCreate.Text,
-                        Address = txtAddressCreate.Text
+                        Address = txtAddressCreate.Text,
+                        Point = 0,
+                        RankLevel = 0,
+                        IsDeleted = false,
                     };
 
                     con.Customers.Add(newCustomer);
                     con.SaveChanges();
                     popupCreateCustomer.IsOpen = false;
-                    MessageBox.Show("Customer created successfully", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Customer created successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                     loadCustomer();
                 }
                 catch (Exception ex)
@@ -167,12 +187,67 @@ namespace CarRentalManagementSystem
         {
             if (customerId.HasValue)
             {
-                return con.Customers.Any(c => c.PhoneNumber == phoneNumber && c.CustomerId != customerId.Value);
+                return con.Customers.Any(c => c.PhoneNumber == phoneNumber && c.CustomerId != customerId.Value && c.IsDeleted == false);
             }
             else
             {
-                return con.Customers.Any(c => c.PhoneNumber == phoneNumber);
+                return con.Customers.Any(c => c.PhoneNumber == phoneNumber && c.IsDeleted == false);
             }
         }
+        private void btnDeleteCustomer_Click(object sender, EventArgs e)
+        {
+            Customer customer = con.Customers.FirstOrDefault(c => c.CustomerId == Convert.ToInt32(txtCustomerId.Text));
+            if (customer != null)
+            {
+                customer.IsDeleted = true;
+                con.Customers.Update(customer);
+                con.SaveChanges();
+                loadCustomer();
+                MessageBox.Show("Delete Successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+        private void Clear()
+        {
+            txtCustomerNameCreate.Text = "";
+            txtPhoneNumberCreate.Text = "";
+            txtAddressCreate.Text = "";
+        }
+        private void btnClearInput_Click(object sender, EventArgs e)
+        {
+            Clear();
+        }
+        private void btnSearchCustomer_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyFilters();
+        }
+        private void ApplyFilters()
+        {
+            string searchName = txtSearchName.Text.Trim().ToLower();
+            string searchPhone = txtSearchPhoneNumber.Text.Trim().ToLower();
+            string selectedRankLevel = (cboRankLevel.SelectedItem as RankLevelCustomer)?.RankLevelName;
+
+            var customers = con.Customers
+                               .Include(c => c.RankLevelNavigation)
+                               .Where(c => c.IsDeleted == false)
+                               .ToList();
+
+            if (!string.IsNullOrEmpty(searchName))
+            {
+                customers = customers.Where(c => c.CustomerName.ToLower().Contains(searchName)).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(searchPhone))
+            {
+                customers = customers.Where(c => c.PhoneNumber.Contains(searchPhone)).ToList();
+            }
+
+            if (selectedRankLevel != "All" && !string.IsNullOrEmpty(selectedRankLevel))
+            {
+                customers = customers.Where(c => c.RankLevelNavigation.RankLevelName == selectedRankLevel).ToList();
+            }
+
+            lvCustomer.ItemsSource = customers;
+        }
+
     }
 }

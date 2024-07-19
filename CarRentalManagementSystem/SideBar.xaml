@@ -8,11 +8,12 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="Orange">
         <StackPanel Orientation="Vertical">
-            <Button Content="Quản lý xe" Margin="5" Click="btnManageCar_Click" />
-            <Button Content="Quản lý khách hàng" Margin="5" />
-            <Button Content="Quản lý đơn đặt xe" Margin="5" Click="btnManageCarRetal_Click" />
-            <Button Content="Quản lý lịch trình" Margin="5" Click="btnManageHistoryCarRental_Click" />
-            <Button Content="Báo cáo và thống kê" Margin="5" />
+            <Button Content="Manage Car" Margin="5" Click="btnManageCar_Click" />
+            <Button Content="Manage Customer" Margin="5" Click="btnManageCustomer_Click"/>
+            <Button Content="Manage Car Rental" Margin="5" Click="btnManageCarRetal_Click" />
+            <Button Content="Manage Rental History" Margin="5" />
+            <Button Content="Manage Staff" Margin="5" Click="btnManageStaff_Click" />
+            <Button Content="Report and Statistics" Margin="5" />
         </StackPanel>
     </Grid>
 </UserControl>

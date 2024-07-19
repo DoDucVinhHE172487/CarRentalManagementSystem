@@ -5,112 +5,195 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CarRentalManagementSystem"
         mc:Ignorable="d"
-        Title="ManageStaff" Height="450" Width="800" ResizeMode="NoResize">
+        Title="ManageStaff" WindowStartupLocation="CenterScreen" Height="450" Width="800" ResizeMode="NoResize">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- Include SidebarControl into the first column -->
+        <!-- Include SidebarControl vào cột đầu tiên -->
         <local:SideBar Grid.Column="0"/>
 
-        <!-- Main content of the page -->
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="0.1*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Grid Grid.Row="0">
-                <!--<Button Content="Add" x:Name="btnAddStaff" HorizontalAlignment="Left" Margin="582,0,0,9" VerticalAlignment="Bottom" Click="btnAddStaff_Click"/>-->
-            </Grid>
-            <Grid Grid.Row="1">
-                <ListView x:Name="lvStaff">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Width="50" Header="Id" DisplayMemberBinding="{Binding Path=StaffId}" />
-                            <GridViewColumn Width="100" Header="Email" DisplayMemberBinding="{Binding Path=Email}" />
-                            <GridViewColumn Width="100" Header="Name" DisplayMemberBinding="{Binding Path=StaffName}" />
-                            <GridViewColumn Width="100" Header="Phone Number" DisplayMemberBinding="{Binding Path=PhoneNumber}" />
-                            <GridViewColumn Width="100" Header="Address" DisplayMemberBinding="{Binding Path=Address}" />
-                            <GridViewColumn Width="100" Header="Salary" DisplayMemberBinding="{Binding Path=Salary}" />
-                            <GridViewColumn Width="100" Header="Action">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <!--<Button Content="Edit" Click="btnEditStaff_Click"/>-->
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-            </Grid>
+        <!-- Nội dung chính của trang -->
+        <TabControl Grid.Column="1">
+            <!-- Tab: List Staff -->
+            <TabItem Header="List Staff">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.1*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <TextBlock Text="Search by Name" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="4,0,0,0" />
+                        <TextBox x:Name="txtSearchName" HorizontalAlignment="Left" Margin="4,15,0,0" VerticalAlignment="Top" Width="150"/>
+                        <TextBlock Text="Search by Email" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="170,0,0,0" />
+                        <TextBox x:Name="txtSearchEmail" HorizontalAlignment="Left" Margin="170,15,0,0" VerticalAlignment="Top" Width="150"/>
+                        <Button Content="Search" x:Name="btnSearchStaff" HorizontalAlignment="Left" Margin="328,14,0,0" VerticalAlignment="Top" Click="btnSearchStaff_Click" Width="60"/>
+                        <Button Content="Create" x:Name="btnAddStaff" HorizontalAlignment="Right" Margin="414,0,0,0" VerticalAlignment="Center" Click="btnAddStaff_Click" Width="46"/>
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <ListView x:Name="lvStaff">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Width="50" Header="Id" DisplayMemberBinding="{Binding Path=StaffId}" />
+                                    <GridViewColumn Width="100" Header="Email" DisplayMemberBinding="{Binding Path=Email}" />
+                                    <GridViewColumn Width="100" Header="Name" DisplayMemberBinding="{Binding Path=StaffName}" />
+                                    <GridViewColumn Width="100" Header="Phone Number" DisplayMemberBinding="{Binding Path=PhoneNumber}" />
+                                    <GridViewColumn Width="100" Header="Address" DisplayMemberBinding="{Binding Path=Address}" />
+                                    <GridViewColumn Width="100" Header="Password" DisplayMemberBinding="{Binding Path=Password}" />
+                                    <GridViewColumn Width="100" Header="Action">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                    <Button Content="Edit" Click="btnEditStaff_Click" Margin="0,0,5,0"/>
+                                                    <Button Content="Delete" Click="btnDeleteStaff_Click"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
 
-            <!-- Popup for editing staff details -->
-            <Popup x:Name="popupEditStaff" IsOpen="False" Placement="Center" PlacementTarget="{Binding ElementName=lvStaff}">
-                <Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Padding="10">
-                    <StackPanel>
-                        <TextBlock Text="Edit Staff" HorizontalAlignment="Center" Margin="0,0,0,10" FontWeight="Bold"/>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Staff Id:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtStaffId" IsReadOnly="True" Width="100"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Email:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtEmail" Width="200"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Name:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtStaffName" Width="200"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Phone Number:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtPhoneNumber" Width="150"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Address:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtAddress" Width="200"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Salary:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtSalary" Width="100"/>
-                        </StackPanel>
-                        <!--<Button Content="Save" Width="80" HorizontalAlignment="Center" Click="SaveStaffButton_Click"/>-->
-                        <!--<Button Content="Cancel" Width="80" HorizontalAlignment="Center" Click="CancelStaffButton_Click"/>-->
-                    </StackPanel>
-                </Border>
-            </Popup>
+                    <!-- Popup to Edit Staff -->
+                    <Popup x:Name="popupEditStaff" IsOpen="False" Placement="Relative" PlacementTarget="{Binding ElementName=lvStaff}">
+                        <Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Padding="10">
+                            <StackPanel>
+                                <TextBlock Text="Edit Staff" HorizontalAlignment="Center" Margin="0,0,0,10" FontWeight="Bold"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
 
-            <!-- Popup for creating new staff -->
-            <Popup x:Name="popupCreateStaff" IsOpen="False" Placement="Center">
-                <Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Padding="10">
-                    <StackPanel>
-                        <TextBlock Text="Create Staff" HorizontalAlignment="Center" Margin="0,0,0,10" FontWeight="Bold"/>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Email:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtEmailCreate" Width="200"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Name:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtStaffNameCreate" Width="200"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Phone Number:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtPhoneNumberCreate" Width="150"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Address:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtAddressCreate" Width="200"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Salary:" Margin="0,0,10,0"/>
-                            <TextBox x:Name="txtSalaryCreate" Width="100"/>
-                        </StackPanel>
-                        <!--<Button Content="Save" Width="80" HorizontalAlignment="Center" Click="SaveStaffButtonCreate_Click"/>-->
-                        <!--<Button Content="Cancel" Width="80" HorizontalAlignment="Center" Click="CancelStaffButtonCreate_Click"/>-->
+                                    <TextBlock Text="Staff Id:" Grid.Row="0" Grid.Column="0" Margin="0,0,10,0"/>
+                                    <TextBox x:Name="txtStaffId" IsReadOnly="True" Grid.Row="0" Grid.Column="1" Width="200"/>
+
+                                    <TextBlock Text="Email:" Grid.Row="1" Grid.Column="0" Margin="0,0,10,0"/>
+                                    <TextBox x:Name="txtEmail" Grid.Row="1" Grid.Column="1" Width="200"/>
+
+                                    <TextBlock Text="Name:" Grid.Row="2" Grid.Column="0" Margin="0,0,10,0"/>
+                                    <TextBox x:Name="txtStaffName" Grid.Row="2" Grid.Column="1" Width="200"/>
+
+                                    <TextBlock Text="Phone Number:" Grid.Row="3" Grid.Column="0" Margin="0,0,10,0"/>
+                                    <TextBox x:Name="txtPhoneNumber" Grid.Row="3" Grid.Column="1" Width="200"/>
+
+                                    <TextBlock Text="Address:" Grid.Row="4" Grid.Column="0" Margin="0,0,10,0"/>
+                                    <TextBox x:Name="txtAddress" Grid.Row="4" Grid.Column="1" Width="200"/>
+
+                                    <TextBlock Text="Salary:" Grid.Row="5" Grid.Column="0" Margin="0,0,10,0"/>
+                                    <TextBox x:Name="txtSalary" Grid.Row="5" Grid.Column="1" Width="200"/>
+
+                                    <TextBlock Text="Password:" Grid.Row="6" Grid.Column="0" Margin="0,0,10,0"/>
+                                    <TextBox x:Name="txtPassword" Grid.Row="6" Grid.Column="1" Width="200"/>
+                                </Grid>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                                    <Button Content="Save" Width="80" Margin="5,0" Click="SaveStaffButton_Click"/>
+                                    <Button Content="Cancel" Width="80" Margin="5,0" Click="CancelStaffButton_Click"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </Popup>
+
+                    <!-- Popup to Create Staff -->
+                    <Popup x:Name="popupCreateStaff" IsOpen="False" Placement="Relative">
+                        <Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Padding="10">
+                            <StackPanel>
+                                <TextBlock Text="Create Staff" HorizontalAlignment="Center" Margin="0,0,0,10" FontWeight="Bold"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Text="Email:" Grid.Row="0" Grid.Column="0" Margin="0,0,10,0"/>
+                                    <TextBox x:Name="txtEmailCreate" Grid.Row="0" Grid.Column="1" Width="200"/>
+
+                                    <TextBlock Text="Name:" Grid.Row="1" Grid.Column="0" Margin="0,0,10,0"/>
+                                    <TextBox x:Name="txtStaffNameCreate" Grid.Row="1" Grid.Column="1" Width="200"/>
+
+                                    <TextBlock Text="Phone Number:" Grid.Row="2" Grid.Column="0" Margin="0,0,10,0"/>
+                                    <TextBox x:Name="txtPhoneNumberCreate" Grid.Row="2" Grid.Column="1" Width="200"/>
+
+                                    <TextBlock Text="Address:" Grid.Row="3" Grid.Column="0" Margin="0,0,10,0"/>
+                                    <TextBox x:Name="txtAddressCreate" Grid.Row="3" Grid.Column="1" Width="200"/>
+
+                                    <TextBlock Text="Salary:" Grid.Row="4" Grid.Column="0" Margin="0,0,10,0"/>
+                                    <TextBox x:Name="txtSalaryCreate" Grid.Row="4" Grid.Column="1" Width="200"/>
+
+                                    <TextBlock Text="Password:" Grid.Row="5" Grid.Column="0" Margin="0,0,10,0"/>
+                                    <TextBox x:Name="txtPasswordCreate" Grid.Row="5" Grid.Column="1" Width="200"/>
+                                </Grid>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                                    <Button Content="Create" Width="80" Margin="5,0" Click="StaffButtonCreate_Click"/>
+                                    <Button Content="Cancel" Width="80" Margin="5,0" Click="CancelStaffButtonCreate_Click"/>
+                                    <Button Content="Clear" Width="80" Margin="5,0" Click="btnClearInput_Click"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </Popup>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Salary Of Staff in Month">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8*"/>
+                        <ColumnDefinition Width="153*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10,10,10,10" Grid.ColumnSpan="2">
+                        <TextBlock Text="Select Month:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <ComboBox x:Name="cmbMonth" Width="150" VerticalAlignment="Center">
+                            <ComboBoxItem Content="January" Tag="1"/>
+                            <ComboBoxItem Content="February" Tag="2"/>
+                            <ComboBoxItem Content="March" Tag="3"/>
+                            <ComboBoxItem Content="April" Tag="4"/>
+                            <ComboBoxItem Content="May" Tag="5"/>
+                            <ComboBoxItem Content="June" Tag="6"/>
+                            <ComboBoxItem Content="July" Tag="7"/>
+                            <ComboBoxItem Content="August" Tag="8"/>
+                            <ComboBoxItem Content="September" Tag="9"/>
+                            <ComboBoxItem Content="October" Tag="10"/>
+                            <ComboBoxItem Content="November" Tag="11"/>
+                            <ComboBoxItem Content="December" Tag="12"/>
+                        </ComboBox>
+                        <Button Content="Show Salary" x:Name="btnShowSalary" Margin="10,0,0,0" Click="btnShowSalary_Click" VerticalAlignment="Center"/>
                     </StackPanel>
-                </Border>
-            </Popup>
-        </Grid>
+                    <DataGrid x:Name="dgSalary" Grid.Row="1" AutoGenerateColumns="False" Margin="10,10,10,10" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Staff ID" Binding="{Binding StaffId}" Width="*" />
+                            <DataGridTextColumn Header="Staff Name" Binding="{Binding StaffName}" Width="*" />
+                            <DataGridTextColumn Header="Salary" Binding="{Binding Salary}" Width="*" />
+                            <DataGridTextColumn Header="Rental Count" Binding="{Binding RentalCount}" Width="*" />
+                            <DataGridTextColumn Header="Commission" Binding="{Binding Commission}" Width="*" />
+                            <DataGridTextColumn Header="Total Salary" Binding="{Binding TotalSalary}" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

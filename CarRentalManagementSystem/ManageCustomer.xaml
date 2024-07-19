@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CarRentalManagementSystem"
         mc:Ignorable="d"
-        Title="ManageCustomer" Height="450" Width="800" ResizeMode="NoResize">
+        Title="ManageCustomer" WindowStartupLocation="CenterScreen" Height="450" Width="800" ResizeMode="NoResize">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150"/>
@@ -22,6 +22,13 @@
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
+                <TextBlock Text="Search by Name" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="4,0,0,0" ></TextBlock>
+                <TextBox x:Name="txtSearchName" HorizontalAlignment="Left" Margin="4,15,0,0" VerticalAlignment="Top" Width="150"/>
+                <TextBlock Text="Search by PhoneNumber" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="170,0,0,0" />
+                <TextBox x:Name="txtSearchPhoneNumber" HorizontalAlignment="Left" Margin="170,15,0,0" VerticalAlignment="Top" Width="150"/>
+                <Button Content="Search" x:Name="btnSearchCustomer" HorizontalAlignment="Left" Margin="328,14,0,0" VerticalAlignment="Top" Click="btnSearchCustomer_Click" Width="60"/>
+                <TextBlock Text="Filter by Rank Level" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="414,-3,0,0" />
+                <ComboBox Name="cboRankLevel" HorizontalAlignment="Left" Margin="415,12,0,0" VerticalAlignment="Top"  Width="100" SelectionChanged="cbRankLevelCustomer_SelectionChanged"/>
                 <Button Content="Create" x:Name="btnAddCustomer" HorizontalAlignment="Left" Margin="582,0,0,0" VerticalAlignment="Center" Click="btnAddCustomer_Click" Width="46"/>
             </Grid>
             <Grid Grid.Row="1">
@@ -29,13 +36,17 @@
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Width="100" Header="Id" DisplayMemberBinding="{Binding Path=CustomerId}" />
-                            <GridViewColumn Width="150" Header="Name" DisplayMemberBinding="{Binding Path=CustomerName}" />
-                            <GridViewColumn Width="150" Header="Phone Number" DisplayMemberBinding="{Binding Path=PhoneNumber}" />
-                            <GridViewColumn Width="150" Header="Address" DisplayMemberBinding="{Binding Path=Address}" />
+                            <GridViewColumn Width="125" Header="Name" DisplayMemberBinding="{Binding Path=CustomerName}" />
+                            <GridViewColumn Width="125" Header="Phone Number" DisplayMemberBinding="{Binding Path=PhoneNumber}" />
+                            <GridViewColumn Width="125" Header="Address" DisplayMemberBinding="{Binding Path=Address}" />
+                            <GridViewColumn Width="75" Header="RankLevel" DisplayMemberBinding="{Binding Path=RankLevelNavigation.RankLevelName}" />
                             <GridViewColumn Width="100" Header="Action">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button Content="Edit" Click="btnEditCustomer_Click"/>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <Button Content="Edit" Click="btnEditCustomer_Click" Margin="0,0,5,0"/>
+                                            <Button Content="Delete" Click="btnDeleteCustomer_Click"/>
+                                        </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -44,7 +55,7 @@
                 </ListView>
             </Grid>
             <!-- Popup để chỉnh sửa -->
-            <Popup x:Name="popupEditCustomer" IsOpen="False" Placement="Center" PlacementTarget="{Binding ElementName=lvCustomer}">
+            <Popup x:Name="popupEditCustomer" IsOpen="False" Placement="Relative" PlacementTarget="{Binding ElementName=lvCustomer}">
                 <Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Padding="10">
                     <StackPanel>
                         <TextBlock Text="Edit Customer" HorizontalAlignment="Center" Margin="0,0,0,10" FontWeight="Bold"/>
@@ -66,11 +77,12 @@
                         </StackPanel>
                         <Button Content="Save" Width="80" HorizontalAlignment="Center" Click="SaveCustomerButton_Click"/>
                         <Button Content="Cancel" Width="80" HorizontalAlignment="Center" Click="CancelCustomerButton_Click"/>
+
                     </StackPanel>
                 </Border>
             </Popup>
             <!-- Popup để create -->
-            <Popup x:Name="popupCreateCustomer" IsOpen="False" Placement="Center">
+            <Popup x:Name="popupCreateCustomer" IsOpen="False" Placement="Relative">
                 <Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Padding="10">
                     <StackPanel>
                         <TextBlock Text="Create Customer" HorizontalAlignment="Center" Margin="0,0,0,10" FontWeight="Bold"/>
@@ -88,9 +100,11 @@
                         </StackPanel>
                         <Button Content="Create" Width="80" HorizontalAlignment="Center" Click="CustomerButtonCreate_Click"/>
                         <Button Content="Cancel" Width="80" HorizontalAlignment="Center" Click="CancelCustomerButtonCreate_Click"/>
+                        <Button Content="Clear" Width="80" HorizontalAlignment="Center" Click="btnClearInput_Click"/>
                     </StackPanel>
                 </Border>
             </Popup>
         </Grid>
+
     </Grid>
 </Window>
