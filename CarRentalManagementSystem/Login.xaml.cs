@@ -52,6 +52,10 @@ namespace CarRentalManagementSystem
                 car.Show();
 
             }
+            else
+            {
+                MessageBox.Show("Email or Password is not correct", "Alert", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

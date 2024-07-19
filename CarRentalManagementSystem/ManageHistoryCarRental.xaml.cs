@@ -28,10 +28,22 @@ namespace CarRentalManagementSystem
             InitializeComponent();
             con = new CarRentalManagementSystemContext();
             loadHistoryCarRental();
+
         }
         public void loadHistoryCarRental()
         {
             lvHistoryCarRental.ItemsSource = con.HistoryCarRentals.Include(x => x.Rental).Include(x=>x.Rental.Customer).Include(x => x.Rental.LicensePlatesNavigation).ToList();
         }
+        private void btnShowDetail_Click(object sender, RoutedEventArgs e)
+        {
+         DetailHistoryCarRental detailHistoryCarRental = new DetailHistoryCarRental();
+            HistoryCarRental historyCarRental = (sender as FrameworkElement).DataContext as HistoryCarRental;
+            detailHistoryCarRental.ShowDialog();
+        }
+        private void NeedToPay()
+        {
+
+        }
+      
     }
 }

@@ -1,30 +1,29 @@
 ﻿USE CarRentalManagementSystem;
 GO
 
--- Insert values into Staff table
+-- Chèn dữ liệu vào bảng Staff
 INSERT INTO Staff (Email, StaffName, [Password], Address, PhoneNumber, Salary, isDeleted)
 VALUES 
-('duong', 'John Doe', '2', '123 Main St', '123-456-7890', 50000.00, 0),
-('jane.smith@example.com', 'Jane Smith', 'password456', '456 Elm St', '987-654-3210', 55000.00, 0);
+('john.doe@example.com', 'John Doe', 'password123', '123 Elm Street', '1234567890', 50000.00, 0),
+('jane.smith@example.com', 'Jane Smith', 'password456', '456 Oak Avenue', '0987654321', 55000.00, 0);
 GO
 
--- Insert values into RankLevelCustomer table
+-- Chèn dữ liệu vào bảng RankLevelCustomer
 INSERT INTO RankLevelCustomer (RankLevelName, Discount)
 VALUES 
 ('Bronze', 5),
 ('Silver', 10),
-('Gold', 15),
-('Platinum', 20);
+('Gold', 15);
 GO
 
--- Insert values into Customer table
+-- Chèn dữ liệu vào bảng Customer
 INSERT INTO Customer (CustomerName, PhoneNumber, Address, Point, RankLevel, isDeleted)
 VALUES 
-('Alice Johnson', '111-222-3333', '789 Maple Ave', 100, 2, 0),
-('Bob Brown', '444-555-6666', '101 Pine St', 200, 3, 0);
+('Alice Johnson', '2345678901', '789 Maple Lane', 100, 1, 0),
+('Bob Brown', '3456789012', '101 Pine Road', 200, 2, 0);
 GO
 
--- Insert values into CarStatus table
+-- Chèn dữ liệu vào bảng CarStatus
 INSERT INTO CarStatus (CarStatusName)
 VALUES 
 ('Available'),
@@ -32,23 +31,23 @@ VALUES
 ('Maintenance');
 GO
 
--- Insert values into Car table
+-- Chèn dữ liệu vào bảng Car
 INSERT INTO Car (LicensePlates, CarName, [Type], DateCar, Color, Brand, Price, NumberOfSeats, CarStatusId, Fuel, RentalPrice, isDeleted)
 VALUES 
-('ABC123', 'Toyota Camry', 'Sedan', '2020-01-01', 'Black', 'Toyota', 25000.00, 5, 1, 'Gasoline', 100.00, 0),
-('DEF456', 'Honda Civic', 'Sedan', '2019-06-15', 'White', 'Honda', 22000.00, 5, 1, 'Gasoline', 90.00, 0);
+('ABC123', 'Toyota Corolla', 'Sedan', '2018-05-01', 'Red', 'Toyota', 20000.00, 5, 1, 'Gasoline', 50.00, 0),
+('DEF456', 'Honda Civic', 'Sedan', '2019-03-15', 'Blue', 'Honda', 22000.00, 5, 1, 'Gasoline', 55.00, 0);
 GO
 
--- Insert values into CarRental table
+-- Chèn dữ liệu vào bảng CarRental
 INSERT INTO CarRental (CustomerId, LicensePlates, StartDate, EndDate, StaffId, Total, isDeleted)
 VALUES 
-(1, 'ABC123', '2024-07-01 09:00:00', '2024-07-05 18:00:00', 1, 500.00, 0),
-(2, 'DEF456', '2024-07-02 10:00:00', '2024-07-06 17:00:00', 2, 450.00, 0);
+(1, 'ABC123', '2024-07-01 09:00:00', '2024-07-10 18:00:00', 1, 500.00, 0),
+(2, 'DEF456', '2024-07-05 10:00:00', '2024-07-15 20:00:00', 2, 550.00, 0);
 GO
 
--- Insert values into HistoryCarRental table
-INSERT INTO HistoryCarRental (RentalId, StartDate, EndDate, ActualReturnTime, TotalPrice, StaffId)
+-- Chèn dữ liệu vào bảng HistoryCarRental
+INSERT INTO HistoryCarRental (RentalId, StartDate, EndDate, ActualReturnTime, TotalPrice)
 VALUES 
-(1, '2024-07-01 09:00:00', '2024-07-05 18:00:00', '2024-07-05 17:30:00', 500.00, 1),
-(2, '2024-07-02 10:00:00', '2024-07-06 17:00:00', '2024-07-06 16:45:00', 450.00, 2);
+(1, '2024-07-01 09:00:00', '2024-07-10 18:00:00', '2024-07-10 17:30:00', 500.00),
+(2, '2024-07-05 10:00:00', '2024-07-15 20:00:00', '2024-07-15 19:45:00', 550.00);
 GO

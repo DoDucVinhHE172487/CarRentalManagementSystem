@@ -1,18 +1,7 @@
 ﻿using BusinessObjects.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace CarRentalManagementSystem
 {
@@ -33,14 +22,12 @@ namespace CarRentalManagementSystem
         }
         public void loadCarRental()
         {
-            Staff loggedInUser = Application.Current.Properties["LoggedInUser"] as Staff;
-            lvCarRental.ItemsSource = con.CarRentals.Include(x => x.Customer).Include(r => r.LicensePlatesNavigation).Include(s => s.Staff).Where(x => x.IsDeleted == false && x.StaffId == (loggedInUser.StaffId != null ? loggedInUser.StaffId : 0)).ToList();
+            lvCarRental.ItemsSource = con.CarRentals.Include(x => x.Customer).Include(r => r.LicensePlatesNavigation).Include(s => s.Staff).Where(x => x.IsDeleted == false).ToList();
         }
         public void loadInfoCar()
         {
-            var usedLicensePlates = con.CarRentals.Select(o => o.LicensePlates).ToList();
-
-            cbLicenPlates.ItemsSource = con.Cars .Where(x => !usedLicensePlates.Contains(x.LicensePlates)).ToList();
+            var usedLicensePlates = con.CarRentals.Where(o => o.IsDeleted == false).Select(o => o.LicensePlates).ToList();
+            cbLicenPlates.ItemsSource = con.Cars.Where(x => !usedLicensePlates.Contains(x.LicensePlates)).ToList();
 
         }
         public void loadInfoCustomer()
@@ -99,14 +86,17 @@ namespace CarRentalManagementSystem
         public void loadTime()
         {
             // Tạo danh sách các giá trị giờ
-            var hours = Enumerable.Range(1, 24).Select(h => new ComboBoxItem { Content = h.ToString() });
+            var hours = Enumerable.Range(0, 24).Select(h => new ComboBoxItem { Content = h.ToString() });
             cbStartTimeHour.ItemsSource = hours;
+            cbStartTimeHour.SelectedIndex = 0;
             cbEndTimeHour.ItemsSource = hours;
-
+            cbEndTimeHour.SelectedIndex = 0;
             // Tạo danh sách các giá trị phút
-            var minutes = Enumerable.Range(1, 60).Select(m => new ComboBoxItem { Content = m.ToString() });
+            var minutes = Enumerable.Range(0, 60).Select(m => new ComboBoxItem { Content = m.ToString() });
             cbStartTimeMinute.ItemsSource = minutes;
+            cbStartTimeMinute.SelectedIndex = 0;
             cbEndTimeMinute.ItemsSource = minutes;
+            cbEndTimeMinute.SelectedIndex = 0;
         }
         private void cbCustomerName_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -192,11 +182,11 @@ namespace CarRentalManagementSystem
             );
             // Kết hợp để tạo DateTime
             DateTime endTime = new DateTime(
-                startDate.Year,
-                startDate.Month,
-                startDate.Day,
-                startHour,
-                startMinute,
+                endDate.Year,
+                endDate.Month,
+                endDate.Day,
+                endHour,
+                endMinute,
                 0
             );
             // Định dạng DateTime thành chuỗi theo định dạng "M/d/yyyy h:mm:ss tt"
@@ -253,10 +243,12 @@ namespace CarRentalManagementSystem
                 con.HistoryCarRentals.Add(historyCarRental);
                 carRental.IsDeleted = true;
                 con.CarRentals.Update(carRental);
-                if(con.SaveChanges() > 0)
+                if (con.SaveChanges() > 0)
                 {
                     MessageBox.Show("Order completed", "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
                     loadCarRental();
+                    loadInfoCar();
+                    loadInfoCustomer();
                 }
                 else
                 {
