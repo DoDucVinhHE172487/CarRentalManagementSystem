@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CarRentalManagementSystem
 {
@@ -194,6 +195,21 @@ namespace CarRentalManagementSystem
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
             Clear();
+        }
+
+        private void search_TextChanged(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (txtValueSearch.Text != null)
+                {
+                    lvCar.ItemsSource = con.Cars.Include(x => x.CarStatus).Where(x => x.IsDeleted == false && x.LicensePlates.ToLower().Contains(txtValueSearch.Text.ToLower())).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Search unsuccessfully!!!\n{ex.Message}", "Alert", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

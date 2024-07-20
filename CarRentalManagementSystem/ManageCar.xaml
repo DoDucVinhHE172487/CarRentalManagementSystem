@@ -19,6 +19,7 @@
                 <RowDefinition Height="0.4*"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
+                <TextBox x:Name="txtValueSearch" HorizontalAlignment="Left" Margin="156,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="186" Height="24" TextChanged="search_TextChanged"/>
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>

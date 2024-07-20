@@ -64,12 +64,12 @@ GO
 -- Bảng CarRental
 CREATE TABLE CarRental (
     RentalId INT PRIMARY KEY IDENTITY(1,1),
-    CustomerId INT,
+    CustomerId INT NOT NULL,
     LicensePlates NVARCHAR(50),
     StartDate DATETIME2 NOT NULL,
     EndDate DATETIME2 NOT NULL,
-    StaffId INT,
-	Total Decimal,
+    StaffId INT NOT NULL,
+	Total Decimal NOT NULL,
     isDeleted BIT,
 	FOREIGN KEY (StaffId) REFERENCES Staff(StaffId),
     FOREIGN KEY (CustomerId) REFERENCES Customer(CustomerId),
@@ -83,7 +83,8 @@ CREATE TABLE HistoryCarRental (
     RentalId INT,
     StartDate DATETIME2 NOT NULL,
     EndDate DATETIME2 NOT NULL,
-    ActualReturnTime DATETIME2,
+    ActualReturnTime DATETIME2 NOT NULL,
     TotalPrice DECIMAL(10, 2) NOT NULL,
+	FOREIGN KEY (RentalId) REFERENCES CarRental(RentalId)
 );
 GO

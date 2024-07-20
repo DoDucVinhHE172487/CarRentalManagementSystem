@@ -37,7 +37,7 @@ public partial class CarRentalManagementSystemContext : DbContext
     {
         modelBuilder.Entity<Car>(entity =>
         {
-            entity.HasKey(e => e.LicensePlates).HasName("PK__Car__AE763D170BE56A2D");
+            entity.HasKey(e => e.LicensePlates).HasName("PK__Car__AE763D17061E67F1");
 
             entity.ToTable("Car");
 
@@ -58,7 +58,7 @@ public partial class CarRentalManagementSystemContext : DbContext
 
         modelBuilder.Entity<CarRental>(entity =>
         {
-            entity.HasKey(e => e.RentalId).HasName("PK__CarRenta__97005943AD766A09");
+            entity.HasKey(e => e.RentalId).HasName("PK__CarRenta__9700594349ED6A0D");
 
             entity.ToTable("CarRental");
 
@@ -81,7 +81,7 @@ public partial class CarRentalManagementSystemContext : DbContext
 
         modelBuilder.Entity<CarStatus>(entity =>
         {
-            entity.HasKey(e => e.CarStatusId).HasName("PK__CarStatu__4A328CC693803E30");
+            entity.HasKey(e => e.CarStatusId).HasName("PK__CarStatu__4A328CC668EC71EB");
 
             entity.ToTable("CarStatus");
 
@@ -90,7 +90,7 @@ public partial class CarRentalManagementSystemContext : DbContext
 
         modelBuilder.Entity<Customer>(entity =>
         {
-            entity.HasKey(e => e.CustomerId).HasName("PK__Customer__A4AE64D8F8F269B9");
+            entity.HasKey(e => e.CustomerId).HasName("PK__Customer__A4AE64D84E7D2CFD");
 
             entity.ToTable("Customer");
 
@@ -108,16 +108,20 @@ public partial class CarRentalManagementSystemContext : DbContext
 
         modelBuilder.Entity<HistoryCarRental>(entity =>
         {
-            entity.HasKey(e => e.HistoryCarRentalId).HasName("PK__HistoryC__897732B2FF343CAA");
+            entity.HasKey(e => e.HistoryCarRentalId).HasName("PK__HistoryC__897732B20130C528");
 
             entity.ToTable("HistoryCarRental");
 
             entity.Property(e => e.TotalPrice).HasColumnType("decimal(10, 2)");
+
+            entity.HasOne(d => d.Rental).WithMany(p => p.HistoryCarRentals)
+                .HasForeignKey(d => d.RentalId)
+                .HasConstraintName("FK__HistoryCa__Renta__3B75D760");
         });
 
         modelBuilder.Entity<RankLevelCustomer>(entity =>
         {
-            entity.HasKey(e => e.RankLevelId).HasName("PK__RankLeve__B7D67F9008D489F3");
+            entity.HasKey(e => e.RankLevelId).HasName("PK__RankLeve__B7D67F90916BCEF7");
 
             entity.ToTable("RankLevelCustomer");
 
@@ -126,9 +130,9 @@ public partial class CarRentalManagementSystemContext : DbContext
 
         modelBuilder.Entity<Staff>(entity =>
         {
-            entity.HasKey(e => e.StaffId).HasName("PK__Staff__96D4AB175AEC28C9");
+            entity.HasKey(e => e.StaffId).HasName("PK__Staff__96D4AB173068E623");
 
-            entity.HasIndex(e => e.Email, "UQ__Staff__A9D105347A7FA728").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__Staff__A9D10534B8A84DFA").IsUnique();
 
             entity.Property(e => e.Address).HasMaxLength(255);
             entity.Property(e => e.Email).HasMaxLength(50);

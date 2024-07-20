@@ -17,11 +17,13 @@ public partial class CarRental
 
     public int? StaffId { get; set; }
 
-    public decimal? Total { get; set; }
+    public decimal Total { get; set; }
 
     public bool? IsDeleted { get; set; }
 
     public virtual Customer? Customer { get; set; }
+
+    public virtual ICollection<HistoryCarRental> HistoryCarRentals { get; set; } = new List<HistoryCarRental>();
 
     public virtual Car? LicensePlatesNavigation { get; set; }
 

@@ -1,5 +1,6 @@
 ﻿using BusinessObjects.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -45,7 +46,7 @@ namespace CarRentalManagementSystem
                 Clear();
             }
         }
-        public void Clear()
+        private void Clear()
         {
             txtNameCar.Text = "";
             txtNumberOfSeats.Text = "";
@@ -67,7 +68,6 @@ namespace CarRentalManagementSystem
             txtRankLevel.Text = "";
             txtTotalPrice.Text = "";
         }
-
         private void cbLicenPlates_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Car carSelected = (sender as ComboBox).SelectedItem as Car;
@@ -79,7 +79,7 @@ namespace CarRentalManagementSystem
                 txtBrand.Text = car.Brand;
                 txtColor.Text = car.Color;
                 txtPrice.Text = car.Price.ToString();
-                txtRentalPrice.Text = car.RentalPrice.ToString("N0", new System.Globalization.CultureInfo("de-DE"));
+                txtRentalPrice.Text = car.RentalPrice.ToString();
 
             }
         }
@@ -135,12 +135,11 @@ namespace CarRentalManagementSystem
                         Double result = (Double)timeSpan.TotalMinutes + totalMinute;
                         Double rentalPrice = Double.Parse(txtRentalPrice.Text);
                         Double discount = Double.Parse(txtDiscount.Text);
-                        txtTotalPrice.Text = (rentalPrice * result - (rentalPrice * result * (discount / 100))).ToString("N0", new System.Globalization.CultureInfo("de-DE"));
+                        txtTotalPrice.Text = Math.Ceiling((rentalPrice * result - (rentalPrice * result * (discount / 100)))).ToString();
                     }
                     else
                     {
                         MessageBox.Show("End Time can't be after Start Time", "Alert", MessageBoxButton.OK, MessageBoxImage.Error);
-
                     }
                 }
                 else
@@ -228,34 +227,47 @@ namespace CarRentalManagementSystem
         {
             HistoryCarRental historyCarRental = new HistoryCarRental();
             CarRental? carRental = (sender as FrameworkElement).DataContext as CarRental;
-            if (carRental != null)
+            Car car = con.Cars.FirstOrDefault(x => x.LicensePlates.Equals(carRental.LicensePlates)) as Car;
+            if (carRental != null && car != null)
             {
                 Staff staff = carRental.Staff;
                 historyCarRental.RentalId = carRental.RentalId;
-                if (decimal.TryParse(txtTotalPrice.Text, out decimal totalPrice))
-                {
-                    historyCarRental.TotalPrice = totalPrice;
-                }
                 historyCarRental.ActualReturnTime = DateTime.Now;
-                historyCarRental.Staff = staff;
                 historyCarRental.StartDate = carRental.StartDate;
                 historyCarRental.EndDate = carRental.EndDate;
-                con.HistoryCarRentals.Add(historyCarRental);
                 carRental.IsDeleted = true;
+
+                decimal rentalPrice = car.RentalPrice;
+                decimal totalPrice = carRental.Total;
+
+                if (historyCarRental.ActualReturnTime < historyCarRental.EndDate)
+                {
+                    TimeSpan timeSpan = historyCarRental.ActualReturnTime - (DateTime)historyCarRental.StartDate;
+                    double timeRemaining = Math.Ceiling(timeSpan.TotalMinutes);
+                    totalPrice -= (decimal)(timeRemaining * (double)rentalPrice);
+                }
+                else if (historyCarRental.ActualReturnTime > historyCarRental.EndDate)
+                {
+                    TimeSpan timeSpan = historyCarRental.ActualReturnTime - (DateTime)historyCarRental.EndDate;
+                    double timeRemaining = Math.Ceiling(timeSpan.TotalMinutes);
+                    totalPrice += (decimal)(timeRemaining * (double)rentalPrice);
+                }
+
+                historyCarRental.TotalPrice = totalPrice;
+                con.HistoryCarRentals.Add(historyCarRental);
                 con.CarRentals.Update(carRental);
+
                 if (con.SaveChanges() > 0)
                 {
                     MessageBox.Show("Order completed", "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
                     loadCarRental();
-                    loadInfoCar();
-                    loadInfoCustomer();
                 }
                 else
                 {
                     MessageBox.Show("Process error!!!", "Alert", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-
             }
         }
+
     }
 }
