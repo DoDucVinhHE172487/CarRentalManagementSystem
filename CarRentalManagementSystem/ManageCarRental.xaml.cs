@@ -233,6 +233,7 @@ namespace CarRentalManagementSystem
                 Staff staff = carRental.Staff;
                 historyCarRental.RentalId = carRental.RentalId;
                 historyCarRental.ActualReturnTime = DateTime.Now;
+                historyCarRental.Rental.Staff = staff;
                 historyCarRental.StartDate = carRental.StartDate;
                 historyCarRental.EndDate = carRental.EndDate;
                 carRental.IsDeleted = true;

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CarRentalManagementSystem"
         mc:Ignorable="d"
-        Title="ManageCarRental" Height="450" Width="800">
+        Title="ManageCarRental" WindowStartupLocation="CenterScreen" Height="450" Width="800" ResizeMode="NoResize">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150"/>
@@ -81,7 +81,7 @@
                                 <GridViewColumn Width="70" Header="Action">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button Content="Done" Width="60" Click="CompleteButton_Click" />
+                                            <Button Content="Done" Width="60" Click="CompleteButton_Click" Tag="{Binding}" />
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>

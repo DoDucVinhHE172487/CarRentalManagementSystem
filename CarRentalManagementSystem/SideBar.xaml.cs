@@ -27,20 +27,40 @@ namespace CarRentalManagementSystem
 
         private void btnManageCar_Click(object sender, RoutedEventArgs e)
         {
+            Window window  = Window.GetWindow(this);
             ManageCar manageCar = new ManageCar();
+            window.Close();
             manageCar.Show();
         }
-
         private void btnManageCarRetal_Click(object sender, RoutedEventArgs e)
         {
            ManageCarRental manageCarRental = new ManageCarRental();
+            Window window = Window.GetWindow(this);
+            window.Close();
             manageCarRental.Show();
         }
-
-        private void btnManageHistoryCarRental_Click(object sender, RoutedEventArgs e)
+        private void btnManageCustomer_Click(object sender, RoutedEventArgs e)
         {
-            ManageHistoryCarRental manageHistoryCarRental = new ManageHistoryCarRental();
-            manageHistoryCarRental.Show();
+            ManageCustomer manageCustomer = new ManageCustomer();
+            Window window = Window.GetWindow(this);
+            window.Close();
+            manageCustomer.Show();
+        }
+
+        private void btnManageStaff_Click(object sender, RoutedEventArgs e)
+        {
+            ManageStaff manageStaff = new ManageStaff();
+            Window window = Window.GetWindow(this);
+            window.Close();
+            manageStaff.Show();
+        }
+
+        private void ReportandStatistics(object sender, RoutedEventArgs e)
+        {
+            ReportandStatistics reportandStatistics = new ReportandStatistics();
+            Window window = Window.GetWindow(this);
+            window.Close();
+            reportandStatistics.Show();
         }
     }
 }

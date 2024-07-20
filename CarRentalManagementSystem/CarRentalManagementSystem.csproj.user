@@ -7,13 +7,7 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="DetailHistoryCarRental.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Login.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="ManageCar.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="ManageCarRental.xaml.cs">
@@ -22,12 +16,15 @@
     <Compile Update="ManageHistoryCarRental.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="ReportandStatistics.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="SideBar.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="DetailHistoryCarRental.xaml">
+    <Page Update="ManageCar.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Login.xaml">
@@ -40,6 +37,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="ManageHistoryCarRental.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ReportandStatistics.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="SideBar.xaml">

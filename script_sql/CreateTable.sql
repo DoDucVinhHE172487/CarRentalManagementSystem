@@ -16,6 +16,17 @@ CREATE TABLE Staff (
     isDeleted BIT,
 );
 GO
+--Bảng StaffProfit
+CREATE TABLE StaffProfit (
+    StaffId INT,
+    StaffName NVARCHAR(255) NOT NULL,
+    Salary DECIMAL(18, 2) NOT NULL,
+    RentalCount INT NOT NULL,
+    Commission DECIMAL(18, 2) NOT NULL,
+    TotalSalary DECIMAL(18, 2)
+	FOREIGN KEY (StaffId) REFERENCES Staff(StaffId),
+);
+GO
 -- Bảng RankLevelCustomer
 CREATE TABLE RankLevelCustomer (
     RankLevelId INT PRIMARY KEY IDENTITY(1,1),
