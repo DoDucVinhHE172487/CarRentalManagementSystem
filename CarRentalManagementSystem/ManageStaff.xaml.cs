@@ -317,7 +317,7 @@ namespace CarRentalManagementSystem
             var staffList = con.Staff.Where(s => s.IsDeleted == false).ToList();
             var rentalsInMonth = con.HistoryCarRentals
                 .Include(h => h.Rental)
-                .Where(h => h.ActualReturnTime.HasValue && h.ActualReturnTime.Value.Month == month)
+                .Where(h => h.ActualReturnTime.Month == month)
                 .ToList();
 
             var staffProfit = staffList.Select(staff =>

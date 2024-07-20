@@ -45,22 +45,6 @@ namespace CarRentalManagementSystem
             Window window = Window.GetWindow(this);
             window.Close();
             manageCustomer.Show();
-        }
-
-        private void btnManageStaff_Click(object sender, RoutedEventArgs e)
-        {
-            ManageStaff manageStaff = new ManageStaff();
-            Window window = Window.GetWindow(this);
-            window.Close();
-            manageStaff.Show();
-        }
-
-        private void ReportandStatistics(object sender, RoutedEventArgs e)
-        {
-            ReportandStatistics reportandStatistics = new ReportandStatistics();
-            Window window = Window.GetWindow(this);
-            window.Close();
-            reportandStatistics.Show();
-        }
+        } 
     }
 }

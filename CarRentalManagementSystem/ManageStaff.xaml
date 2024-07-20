@@ -13,7 +13,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- Include SidebarControl vào cột đầu tiên -->
-        <local:SideBar Grid.Column="0"/>
+        <local:SideBarAdmin Grid.Column="0"/>
 
         <!-- Nội dung chính của trang -->
         <TabControl Grid.Column="1" Padding="10">
